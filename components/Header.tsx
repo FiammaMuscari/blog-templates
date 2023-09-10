@@ -69,7 +69,7 @@ const Header = () => {
             <Link
               key={link.title}
               href={link.href}
-              className="hidden sm:block font-medium text-gray-900 dark:text-gray-100"
+              className="link link-underline dark:bg-gradient-to-r from-cyan-300 to-cyan-300 hidden sm:block font-medium text-gray-900 dark:text-gray-100"
             >
               {link.title}
             </Link>

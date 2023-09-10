@@ -100,3 +100,20 @@ header.isSticky .title {
 .mono-type {
   font-family: 'Major Mono Display', monospace;
 }
+
+
+
+/*underline transition*/
+.link-underline {
+  border-bottom-width: 2;
+  background-image: linear-gradient(transparent, transparent), linear-gradient(#ff08ea,#ff08ea);
+  background-size: 0 3px;
+  background-position: 0 105%;
+  background-repeat: no-repeat;
+  transition: background-size .3s ease-in-out;
+}
+
+.link-underline:hover {
+  background-size: 100% 3px;
+  background-position: 0 100%
+}
