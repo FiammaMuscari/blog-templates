@@ -48,7 +48,7 @@ export function ProfileCardInfo() {
           >
             <Github size={20} strokeWidth={1} />
             <span className="ml-px text-gray-500">/</span>
-            <span className="ml-0.5">liunice</span>
+            <span className="ml-0.5">Fiamma</span>
           </a>
           <span className="text-gray-400 dark:text-gray-500">|</span>
           <a
@@ -60,7 +60,7 @@ export function ProfileCardInfo() {
           >
             <Linkedin size={20} strokeWidth={1} />
             <span className="ml-px text-gray-500">/</span>
-            <span className="ml-0.5">liunice</span>
+            <span className="ml-0.5">Fiamma</span>
           </a>
           <span className="text-gray-400 dark:text-gray-500">|</span>
           <a
@@ -72,7 +72,7 @@ export function ProfileCardInfo() {
           >
             <Twitter strokeWidth={1} size={20} />
             <span className="ml-px text-gray-500">/</span>
-            <span className="ml-0.5">liunicer</span>
+            <span className="ml-0.5">Fiammar</span>
           </a>
         </div>
       </div>

@@ -60,10 +60,10 @@ export default function Article(post: CoreContent<Blog>) {
             <div className="text-base font-medium leading-6">
               <Link
                 href={`/blog/${slug}`}
-                className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                className="text-primary-500 dark:text-teal-500  hover:text-primary-600 dark:hover:text-teal-400"
                 aria-label={`Read "${title}"`}
               >
-                Read More &rarr;
+                Ver más &rarr;
               </Link>
             </div>
           </div>

@@ -62,7 +62,7 @@ export function ProfileCard() {
         )}
       >
         <Image
-          src="/static/images/city.jpg"
+          src="/city.jpg"
           alt="avatar"
           width={550}
           height={350}

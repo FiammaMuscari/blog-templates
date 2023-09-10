@@ -9,6 +9,7 @@ import { ShortDescription } from '@/components/homepage/ShortDescription'
 import { BlogLinks } from '@/components/homepage/BlogLinks'
 import { ProfileCard } from '@/components/ProfileCard'
 import Twemoji from '@/components/Twemoji'
+import Image from 'next/image'
 
 export default async function Page() {
   const sortedPosts = sortPosts(allBlogs)
@@ -16,23 +17,18 @@ export default async function Page() {
   return (
     <>
       <div className="mt-8 divide-y divide-gray-200 dark:divide-gray-700 md:mt-16">
-        <div className="space-y-2 md:my-4 md:space-y-5 md:pb-8 md:pt-6 xl:grid xl:grid-cols-3">
-          <div className="md:pr-8 xl:col-span-2 space-y-6 md:space-y-8">
-            <Greeting />
-            <div className="text-base leading-7 md:text-lg md:leading-8 text-gray-600 dark:text-gray-400">
-              <Heading />
-              <TypedBios />
-              <ShortDescription />
-              <BlogLinks />
-              <p className="my-8 flex">
-                <span className="mr-2">Happy reading</span>
-                <Twemoji emoji="clinking-beer-mugs" />
-              </p>
-            </div>
+        <div className="border-none flex justify-center  animate-float relative">
+          <div className="animate-floating  w-full">
+            <TypedBios />
           </div>
-          <div className="hidden xl:block">
-            <ProfileCard />
-          </div>
+          <Image
+            src="/chiiica.png"
+            alt="profile"
+            width={400}
+            height={250}
+            priority
+            className="md:mr-[7em] "
+          />
         </div>
       </div>
 

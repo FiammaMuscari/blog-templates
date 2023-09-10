@@ -30,6 +30,14 @@ module.exports = {
           '5px 5px rgba(0, 98, 90, 0.4), 10px 10px rgba(0, 98, 90, 0.3), 15px 15px rgba(0, 98, 90, 0.2), 20px 20px rgba(0, 98, 90, 0.1), 25px 25px rgba(0, 98, 90, 0.05)',
       },
       keyframes: {
+        float: {
+          '0%, 100%': {
+            transform: 'translateY(0)',
+          },
+          '50%': {
+            transform: 'translateY(-10px)',
+          },
+        },
         wiggle: {
           '0%': { transform: 'rotate(0deg)' },
           '50%': { transform: 'rotate(180deg)' },
@@ -61,7 +69,10 @@ module.exports = {
         'music-bar-2': 'music-bar-2 .8s linear infinite',
         'music-bar-3': 'music-bar-3 .8s linear infinite',
         'music-bar-4': 'music-bar-4 .8s linear infinite',
+        float: 'float 3s ease-in-out infinite',
+        floating: 'float 4s ease-in-out infinite',
       },
+
       spacing: {
         '9/16': '56.25%',
       },
@@ -75,8 +86,9 @@ module.exports = {
         sans: ['var(--font-space-grotesk)', ...fontFamily.sans],
       },
       colors: {
-        primary: colors.pink,
+        primary: colors.violet,
         gray: colors.gray,
+        secondary: colors.teal,
       },
       typography: ({ theme }) => ({
         DEFAULT: {
@@ -84,7 +96,7 @@ module.exports = {
             a: {
               color: theme('colors.primary.500'),
               '&:hover': {
-                color: `${theme('colors.primary.600')}`,
+                color: `${theme('colors.primary.700')}`,
               },
               code: { color: theme('colors.primary.400') },
             },
@@ -103,11 +115,11 @@ module.exports = {
         invert: {
           css: {
             a: {
-              color: theme('colors.primary.500'),
+              color: theme('colors.secondary.500'),
               '&:hover': {
-                color: `${theme('colors.primary.400')}`,
+                color: `${theme('colors.secondary.400')}`,
               },
-              code: { color: theme('colors.primary.400') },
+              code: { color: theme('colors.secondary.400') },
             },
             'h1,h2,h3,h4,h5,h6': {
               color: theme('colors.gray.100'),

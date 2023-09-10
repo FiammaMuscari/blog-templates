@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect, useRef } from 'react'
 import Typed from 'typed.js'
 import { Twemoji } from '@/components/Twemoji'
@@ -20,28 +19,32 @@ export function TypedBios() {
   useEffect(() => {
     if (!el.current) return
 
+    // Inicializa el Typed.js
     const typed = createTypedInstance(el.current)
+
     return () => {
-      // destroy Typed instance during cleanup to stop animation
+      // Destruye el Typed instance durante la limpieza para detener la animación
       typed.destroy()
     }
   }, [])
 
+  // Mensaje inicial con puntos suspensivos
+  const initialMessage = '...'
+
   return (
-    <div>
+    <div className="dark:bg-cyan-950 bg-violet-200 md:ml-[7em] border-2 border-violet-400 dark:border-white rounded-xl py-[20px] px-[15px]">
       <ul id="bios" className="hidden">
-        <li>I'm a learner, builder, and freedom seeker.</li>
-        <li>I live in Shenzhen, China.</li>
-        <li>The first programming language I learned was C#.</li>
-        <li>I love web development.</li>
-        <li>I'm focusing on building eCommerce software.</li>
-        <li>I work mostly with JS/TS technologies.</li>
         <li>
-          I love playing video games, Baldur's Gate 3 is my favorite one.
-          <Twemoji emoji="video-game" />
+          Hola soy Fiamma! <Twemoji emoji="video-game" />
         </li>
+        <li>Lee los distintos blogs quizás te sirvan</li>
+        <li>Colaborá en github, forkea y hacé un pr</li>
+        <li>No me gusta javascript, pero es lo que hay</li>
+        <li>Robemos componentes como Robin Hood!</li>
       </ul>
-      <span ref={el} className="text-neutral-900 dark:text-neutral-200" />
+      <span ref={el} className="text-neutral-900 dark:text-neutral-200">
+        {initialMessage}
+      </span>
     </div>
   )
 }

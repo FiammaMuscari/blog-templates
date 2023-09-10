@@ -178,23 +178,6 @@ const Author = defineDocumentType(() => ({
   computedFields,
 }))
 
-const Resume = defineDocumentType(() => ({
-  name: 'Resume',
-  filePathPattern: 'resume/**/*.mdx',
-  contentType: 'mdx',
-  fields: {
-    name: { type: 'string', required: true },
-    avatar: { type: 'string' },
-    occupation: { type: 'string' },
-    company: { type: 'string' },
-    email: { type: 'string' },
-    twitter: { type: 'string' },
-    linkedin: { type: 'string' },
-    github: { type: 'string' },
-  },
-  computedFields,
-}))
-
 const Page = defineDocumentType(() => ({
   name: 'Page',
   filePathPattern: 'pages/**/*.mdx',
@@ -204,7 +187,7 @@ const Page = defineDocumentType(() => ({
 
 export default makeSource({
   contentDirPath: 'data',
-  documentTypes: [Blog, Author, Resume, Page],
+  documentTypes: [Blog, Author, Page],
   mdx: {
     cwd: root,
     remarkPlugins: [

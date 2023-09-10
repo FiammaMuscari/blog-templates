@@ -11,21 +11,92 @@
 }
 
 .footnotes {
-  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
-}
-
-.data-footnote-backref {
-  @apply no-underline;
+  @apply pt-8 mt-12 border-t border-gray-200 dark:border-gray-700;
 }
 
 .csl-entry {
   @apply my-5;
 }
 
+:root {
+  /* Your default theme */
+  --bg: #fff;
+}
+
+[color-scheme='dark'] {
+  --bg: #10172a;
+}
+.theme-switch-animation:hover {
+  animation: hover-scale 0.2s ease-in-out;
+}
+
+.theme-switch-animation:active {
+  animation: tap-scale-rotate 0.2s ease-in-out;
+}
+
+@keyframes hover-scale {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes tap-scale-rotate {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.7) rotate(360deg);
+  }
+}
 /* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-  transition:
-    background-color 600000s 0s,
-    color 600000s 0s;
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+.backdrop {
+  backdrop-filter: blur(6px);
+}
+
+.top-n-1 {
+  top: -5px;
+}
+
+header.isSticky .title {
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.leftNav {
+  opacity: 0;
+}
+
+.leftNav.isSticky {
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.table-of-contents {
+  position: sticky;
+  display: none;
+}
+
+.leftNav.isSticky .table-of-contents {
+  display: block;
+}
+
+.post-img {
+  max-width: 500px;
+  margin: auto;
+}
+
+::selection {
+  background-color: rgba(56, 189, 248, 0.2);
+}
+
+.mono-type {
+  font-family: 'Major Mono Display', monospace;
 }

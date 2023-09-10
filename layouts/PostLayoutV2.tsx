@@ -140,7 +140,7 @@ export default function PostLayout(props: Props) {
                         <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                           Previous Article
                         </h2>
-                        <div className="mt-3 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
+                        <div className="mt-3 text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400">
                           <Link href={`/blog/${prev.slug}`}>{prev.title}</Link>
                         </div>
                       </div>
@@ -150,7 +150,7 @@ export default function PostLayout(props: Props) {
                         <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
                           Next Article
                         </h2>
-                        <div className="mt-3 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
+                        <div className="mt-3 text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400">
                           <Link href={`/blog/${next.slug}`}>{next.title}</Link>
                         </div>
                       </div>
@@ -161,7 +161,7 @@ export default function PostLayout(props: Props) {
               <div className="pt-4 xl:pt-8">
                 <Link
                   href={`/${basePath}`}
-                  className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                  className="text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400"
                 >
                   &larr; Back to the blog
                 </Link>

@@ -1,22 +1,22 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: "liunice's blog",
-  author: 'Thomas Liu',
-  headerTitle: "liunice's blog",
-  description: 'A blog created with Next.js and Tailwind CSS',
+  title: 'Flamita blog',
+  author: 'Fiamma Muscari',
+  headerTitle: 'Flamita',
+  description: 'App made with Next.js, Tailwind and mdx',
   language: 'en-US',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://liunice.com',
-  siteRepo: 'https://github.com/liunice/nextjs-tailwind-blog',
+  siteUrl: 'https://fiammamuscari.com',
+  siteRepo: 'https://github.com/fiammamuscari',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
   mastodon: 'https://mastodon.social',
-  email: 'liunice@gmail.com',
-  github: 'https://github.com/liunice',
-  twitter: 'https://twitter.com/liunicer',
+  email: 'fiammamuscari@gmail.com',
+  github: 'https://github.com/fiammamuscari',
+  twitter: 'https://twitter.com/__fiamy',
   facebook: 'https://facebook.com',
   youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com/in/liunice',
+  linkedin: 'https://www.linkedin.com/in/fiamma-muscari',
   locale: 'en-US',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
