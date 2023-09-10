@@ -1,14 +1,7 @@
 import { sortPosts, allCoreContent } from 'pliny/utils/contentlayer'
 import { allBlogs } from 'contentlayer/generated'
 import Main from './Main'
-
-import { Greeting } from '@/components/homepage/Greeting'
-import { Heading } from '@/components/homepage/Heading'
 import { TypedBios } from '@/components/homepage/TypedBios'
-import { ShortDescription } from '@/components/homepage/ShortDescription'
-import { BlogLinks } from '@/components/homepage/BlogLinks'
-import { ProfileCard } from '@/components/ProfileCard'
-import Twemoji from '@/components/Twemoji'
 import Image from 'next/image'
 
 export default async function Page() {
