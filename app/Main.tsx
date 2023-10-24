@@ -1,12 +1,12 @@
-import Link from '@/components/Link';
-import siteMetadata from '@/data/siteMetadata';
-import NewsletterForm from 'pliny/ui/NewsletterForm';
-import Article from '@/components/Article';
-import { CoreContent } from 'pliny/utils/contentlayer';
-import { Blog } from 'contentlayer/generated';
-import Tag from '@/components/Tag';
-import { slug } from 'github-slugger';
-import { FEATURED_POSTS } from '@/constant';
+import Link from '@/components/Link'
+import siteMetadata from '@/data/siteMetadata'
+import NewsletterForm from 'pliny/ui/NewsletterForm'
+import Article from '@/components/Article'
+import { CoreContent } from 'pliny/utils/contentlayer'
+import { Blog } from 'contentlayer/generated'
+import Tag from '@/components/Tag'
+import { slug } from 'github-slugger'
+import { FEATURED_POSTS } from '@/constant'
 
 interface HomeProps {
   posts: CoreContent<Blog>[];
@@ -14,20 +14,20 @@ interface HomeProps {
 
 export default function Home({ posts }: HomeProps) {
   const calculateTagCounts = (posts: CoreContent<Blog>[]) => {
-    const tagCounts: Record<string, number> = {};
+    const tagCounts: Record<string, number> = {}
 
     posts.forEach((post) => {
       post.tags.forEach((tag) => {
-        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-      });
-    });
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1
+      })
+    })
 
-    return tagCounts;
-  };
+    return tagCounts
+  }
 
-  const tagCounts = calculateTagCounts(posts);
-  const tagKeys = Object.keys(tagCounts);
-  const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a]);
+  const tagCounts = calculateTagCounts(posts)
+  const tagKeys = Object.keys(tagCounts)
+  const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
 
   return (
     <>
