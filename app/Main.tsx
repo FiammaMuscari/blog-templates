@@ -9,7 +9,7 @@ import { slug } from 'github-slugger'
 import { FEATURED_POSTS } from '@/constant'
 
 interface HomeProps {
-  posts: CoreContent<Blog>[];
+  posts: CoreContent<Blog>[]
 }
 
 export default function Home({ posts }: HomeProps) {
