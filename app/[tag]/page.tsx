@@ -1,5 +1,5 @@
 import { slug } from 'github-slugger'
-import { allCoreContent } from 'pliny/utils/contentlayer'
+import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer'
 import siteMetadata from '@/data/siteMetadata'
 import ListLayout from '@/layouts/ListLayoutWithCovers'
 import { allBlogs } from 'contentlayer/generated'
@@ -8,6 +8,8 @@ import { genPageMetadata } from 'app/seo'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import Tag from '@/components/Tag'
+import { CoreContent } from 'pliny/utils/contentlayer'
+import { Blog } from 'contentlayer/generated'
 
 export async function generateMetadata({ params }: { params: { tag: string } }): Promise<Metadata> {
   const tag = params.tag
@@ -41,7 +43,19 @@ export default function TagPage({ params }: { params: { tag: string } }) {
       (post) => post.draft !== true && post.tags && post.tags.map((t) => slug(t)).includes(tag)
     )
   )
-  const tagCounts = tagData as Record<string, number>
+  const posts = allCoreContent(sortPosts(allBlogs))
+  const calculateTagCounts = (posts: CoreContent<Blog>[]) => {
+    const tagCounts: Record<string, number> = {}
+
+    posts.forEach((post) => {
+      post.tags.forEach((tag) => {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1
+      })
+    })
+
+    return tagCounts
+  }
+  const tagCounts = calculateTagCounts(posts)
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
   return (
@@ -55,20 +69,18 @@ export default function TagPage({ params }: { params: { tag: string } }) {
         </div>
         <div className="flex max-w-lg flex-wrap">
           {tagKeys.length === 0 && 'No tags found.'}
-          {sortedTags.map((t) => {
-            return (
-              <div key={t} className="mb-2 mr-5 mt-2">
-                <Tag text={t} />
-                <Link
-                  href={`/${slug(t)}`}
-                  className="-ml-2 text-sm font-semibold uppercase text-gray-600 dark:text-gray-300"
-                  aria-label={`View posts tagged ${t}`}
-                >
-                  {` (${tagCounts[t]})`}
-                </Link>
-              </div>
-            )
-          })}
+          {sortedTags.map((t) => (
+            <div key={t} className="mb-2 mr-5 mt-2">
+              <Tag text={t} />
+              <Link
+                href={`/${slug(t)}`}
+                className="-ml-2 text-sm font-semibold uppercase text-gray-600 dark:text-gray-300"
+                aria-label={`View posts tagged ${t}`}
+              >
+                {` (${tagCounts[t]})`}
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </>
