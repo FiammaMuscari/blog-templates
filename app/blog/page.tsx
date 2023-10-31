@@ -11,7 +11,6 @@ import tagData from 'app/tag-data.json'
 import Link from 'next/link'
 export const metadata = genPageMetadata({ title: 'Blog' })
 
-
 export default function BlogPage() {
   const posts = allCoreContent(sortPosts(allBlogs))
   const pageNumber = 1
@@ -23,7 +22,6 @@ export default function BlogPage() {
     currentPage: pageNumber,
     totalPages: Math.ceil(posts.length / POSTS_PER_PAGE),
   }
-
   const calculateTagCounts = (posts: CoreContent<Blog>[]) => {
     const tagCounts: Record<string, number> = {}
 
