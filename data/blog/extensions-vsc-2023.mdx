@@ -1,0 +1,94 @@
+---
+title: 'Extensiones para Visual Studio Code'
+date: '2023-11-06'
+tags: ['apuntes', 'extensiones']
+draft: false
+images: ['/static/images/canada/mountains.jpg']
+summary: Una lista detallada de todas las extensiones que deberías tener en tu editor de código.
+---
+
+# Extensiones para programadores en Visual Studio Code (2023)
+
+## Introducción 🚀
+
+¡Bienvenido/a al emocionante mundo de la programación!💻✨ En este blog vamos a explorar algunas opciones para configurar tu Visual Studio Code (VSC) porque, para asegurar la productividad, es crucial contar con las herramientas adecuadas. Hoy, te presentaré algunas extensiones clave para VSC diseñadas para hacer que tu experiencia de codificación sea más eficiente, educativa y, sobre todo, agradable, especialmente si estás dando tus primeros pasos en este mundo. ¡Adelante! 😊
+
+## Snippets
+
+Tu Ayuda Instantánea en el Código 💡
+
+Los lenguajes esenciales como **JavaScript, HTML y CSS** ya están integrados en VSC. Puedes aprovechar los Snippets (pequeños bloques de código predefinidos) para agilizar tu escritura, proporcionando fragmentos de código que ayudan a entender estructuras y prácticas comunes. Para nuestra suerte los lenguajes mencionados se encuentran integrados por el editor pero en caso de buscar soporte para otros lenguajes, herramientas o funcionalidades deberán instalarlos.
+
+## Themes
+
+Personaliza tu Entorno de Desarrollo 🌈
+
+Es posible personalizar el espacio de trabajo, algo esencial para la productividad y comodidad de uno. Existen los **Themes** para esto, algunos populares para que veas y pruebes son "Shades of Purple" (el que uso actualmente), "Otakon", "Ayu Mirage", etc. sirven para cambiar los colores y el fondo del editor según tus preferencias visuales, creando un ambiente de trabajo agradable a tu gusto.
+
+## Discord Presence
+
+Comparte tu Progreso en Tiempo Real 🎮
+
+¿Quieres mostrarle a tus amigos las horas que pasas programando sin tener vida? genial, con la extensión "Discord Presence," se puede compartir en tiempo real en qué archivo estás trabajando y cuánto tiempo llevas programando mientras ves que ellos se juegan un lolcito. Solo funciona con la app de discord como administrador y se conecta a Visual Studio Code sin problemas.
+
+## Live Server
+
+Visualiza Cambios Instantáneos en tu Proyecto Web 🎥
+
+Te permite ver los cambios en tu proyecto web en tiempo real. Esta extensión crea un servidor local que muestra instantáneamente las modificaciones que haces en tu código HTML, CSS o JavaScript. Ideal para ajustar estilos y diseño en tiempo real.
+
+## Prettier
+
+Mantene tu Código Organizado y Consistente 🎨
+
+La legibilidad del código es crucial. Prettier formatea automáticamente tu código para seguir un estilo de codificación consistente en HTML, CSS y JavaScript. Garantiza que tu código esté correctamente estructurado, facilitando la colaboración y la revisión del código.
+
+### ¿Queres autoformatear en vsc al guardar con prettier?
+
+Para que se autoformatee al guardar (con los comandos ctrl + s) debemos configurar VSC de la siguiente forma:
+Presionando F1 > escribimos "settings.json" dentro de este file cambiaremos la configuración del vsc para que al guardar el prettier se ejecute.
+Pegamos el siguiente código y cerramos, ya debería funcionar sin problema.
+
+```
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  }
+}
+```
+
+## ESLint
+
+Encuentra Errores y Sigue las Mejores Prácticas de JavaScript 📛
+
+Es una herramienta de linting para JavaScript. Identifica errores y asegura que sigas las prácticas recomendadas. Para los principiantes, es esencial para aprender sobre errores comunes y mejorar tu código JavaScript continuamente.
+
+## Indent-Rainbow
+
+Visualiza Tu Indentación de Forma Colorida 🌈
+
+Colorea las indentaciones de tu código, facilitando la visualización de bloques de código anidados como un arcoiris, para mejorar la legibilidad.
+
+## Material Icon Theme
+
+Iconos con Estilo para tu Proyecto 🎉
+
+Estos iconos intuitivos facilitan la identificación de archivos y directorios, mejorando la organización de tu proyecto y tu flujo de trabajo, además son muy lindos. 😊
+
+## GitHub Copilot
+
+Tu Compañero de Codificación 🤖
+
+Es una herramienta de inteligencia artificial que te ayuda a escribir código de manera más eficiente y rápida, es importante contar con copilot (pago) para que su extensión funcione.
+
+## Git Lens
+
+Explora el Historial de tu Proyecto de Forma Intuitiva 🕰️
+
+Proporciona información detallada sobre el historial del código. Visualiza quién, por qué y cuándo se realizaron cambios en un archivo o línea de código. Esto es invaluable para comprender la evolución de un proyecto y aprender de las decisiones pasadas.
+
+## Conclusión
+
+Estas extensiones son tu caja de herramientas esenciales en el mundo de la programación. Al usar Visual Studio Code junto con estas poderosas extensiones. ¡A codear! 🚀😊

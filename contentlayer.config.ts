@@ -1,5 +1,5 @@
 import { defineDocumentType, ComputedFields, makeSource } from 'contentlayer/source-files'
-import { readFileSync, writeFileSync } from 'fs'
+import { writeFileSync } from 'fs'
 import readingTime from 'reading-time'
 import GithubSlugger from 'github-slugger'
 import path from 'path'
@@ -9,10 +9,9 @@ import remarkMath from 'remark-math'
 import {
   remarkExtractFrontmatter,
   remarkCodeTitles,
-  // remarkImgToJsx,
+  remarkImgToJsx,
   extractTocHeadings,
 } from 'pliny/mdx-plugins/index.js'
-import { remarkImgToJsx } from './plugins/remark-img-to-jsx'
 // Rehype packages
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -22,10 +21,9 @@ import rehypePrismPlus from 'rehype-prism-plus'
 import rehypePresetMinify from 'rehype-preset-minify'
 import siteMetadata from './data/siteMetadata'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer.js'
-import { Blog as Post } from 'contentlayer/generated'
-import { generateThumbnail } from './lib/image.mjs'
 
 const root = process.cwd()
+const isProduction = process.env.NODE_ENV === 'production'
 
 const computedFields: ComputedFields = {
   readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
@@ -41,7 +39,7 @@ const computedFields: ComputedFields = {
     type: 'string',
     resolve: (doc) => doc._raw.sourceFilePath,
   },
-  toc: { type: 'json', resolve: (doc) => extractTocHeadings(doc.body.raw) },
+  toc: { type: 'string', resolve: (doc) => extractTocHeadings(doc.body.raw) },
 }
 
 /**
@@ -50,7 +48,7 @@ const computedFields: ComputedFields = {
 function createTagCount(allBlogs) {
   const tagCount: Record<string, number> = {}
   allBlogs.forEach((file) => {
-    if (file.tags && file.draft !== true) {
+    if (file.tags && (!isProduction || file.draft !== true)) {
       file.tags.forEach((tag) => {
         const formattedTag = GithubSlugger.slug(tag)
         if (formattedTag in tagCount) {
@@ -64,7 +62,7 @@ function createTagCount(allBlogs) {
   writeFileSync('./app/tag-data.json', JSON.stringify(tagCount))
 }
 
-async function createSearchIndex(allBlogs: Post[]) {
+function createSearchIndex(allBlogs) {
   if (
     siteMetadata?.search?.provider === 'kbar' &&
     siteMetadata.search.kbarConfig.searchDocumentsPath
@@ -75,38 +73,9 @@ async function createSearchIndex(allBlogs: Post[]) {
     )
     console.log('Local search index generated...')
   }
-  // we use the official crawler from algolia web console to generate search index now
-  // else if (siteMetadata?.search?.provider === 'algolia') {
-  //   if (process.env.NODE_ENV === 'development') {
-  //     return
-  //   }
-  //   const adminKey = process.env.ALGOLIA_ADMIN_API_KEY
-  //   if (!adminKey) {
-  //     console.error('Algolia admin API key not configured')
-  //     return
-  //   }
-
-  //   const client = algoliasearch(siteMetadata.search.algoliaConfig.appId, adminKey)
-  //   const index = client.initIndex(siteMetadata.search.algoliaConfig.indexName)
-  //   // convert tha data retrieved by contentlayer
-  //   // into the desired Algolia format
-  //   const algoliaPosts = allBlogs.map((blog) => {
-  //     return {
-  //       objectID: blog._id,
-  //       title: blog.title,
-  //       excerpt: blog.summary,
-  //       slug: blog.slug,
-  //       date: blog.date,
-  //     }
-  //   })
-  //   // save all posts info to Algolia
-  //   await index.replaceAllObjects(algoliaPosts)
-
-  //   console.log('Algolia search index generated...')
-  // }
 }
 
-const Blog = defineDocumentType(() => ({
+export const Blog = defineDocumentType(() => ({
   name: 'Blog',
   filePathPattern: 'blog/**/*.mdx',
   contentType: 'mdx',
@@ -117,8 +86,7 @@ const Blog = defineDocumentType(() => ({
     lastmod: { type: 'date' },
     draft: { type: 'boolean' },
     summary: { type: 'string' },
-    images: { type: 'list', of: { type: 'string' } },
-    showCover: { type: 'boolean', default: true },
+    images: { type: 'json' },
     authors: { type: 'list', of: { type: 'string' } },
     layout: { type: 'string' },
     bibliography: { type: 'string' },
@@ -126,23 +94,6 @@ const Blog = defineDocumentType(() => ({
   },
   computedFields: {
     ...computedFields,
-    thumbnails: {
-      type: 'json',
-      resolve: async (doc: Post) => {
-        const slug = doc._raw.flattenedPath.replace(/^.+?(\/)/, '')
-        // read json file at `.data/blog/${slug}.json`
-        const filePath = `./.data/blog/${slug}.json`
-        // generate thumbnails (if not exists)
-        for (const image of doc.images || []) {
-          await generateThumbnail(slug, image)
-        }
-
-        // read
-        const root = JSON.parse(readFileSync(filePath, 'utf8'))
-        console.log(`[thumbnails] READY: ${slug}`)
-        return root.thumbnails
-      },
-    },
     structuredData: {
       type: 'json',
       resolve: (doc) => ({
@@ -154,14 +105,13 @@ const Blog = defineDocumentType(() => ({
         description: doc.summary,
         image: doc.images ? doc.images[0] : siteMetadata.socialBanner,
         url: `${siteMetadata.siteUrl}/${doc._raw.flattenedPath}`,
-        author: doc.authors,
       }),
     },
   },
 }))
 
-const Author = defineDocumentType(() => ({
-  name: 'Author',
+export const Authors = defineDocumentType(() => ({
+  name: 'Authors',
   filePathPattern: 'authors/**/*.mdx',
   contentType: 'mdx',
   fields: {
@@ -178,18 +128,11 @@ const Author = defineDocumentType(() => ({
   computedFields,
 }))
 
-const Page = defineDocumentType(() => ({
-  name: 'Page',
-  filePathPattern: 'pages/**/*.mdx',
-  contentType: 'mdx',
-  computedFields,
-}))
-
 export default makeSource({
   contentDirPath: 'data',
-  documentTypes: [Blog, Author, Page],
+  documentTypes: [Blog, Authors],
   mdx: {
-    cwd: root,
+    cwd: process.cwd(),
     remarkPlugins: [
       remarkExtractFrontmatter,
       remarkGfm,
@@ -208,9 +151,7 @@ export default makeSource({
   },
   onSuccess: async (importData) => {
     const { allBlogs } = await importData()
-
     createTagCount(allBlogs)
-
-    await createSearchIndex(allBlogs)
+    createSearchIndex(allBlogs)
   },
 })
