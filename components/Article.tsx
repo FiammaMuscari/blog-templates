@@ -28,8 +28,8 @@ export default function Article(post: CoreContent<Blog>) {
                     src={coverUrl}
                     sizes="(min-width: 1280px) 20vw, 100vw"
                     fill
-                    placeholder={post.thumbnails?.[coverUrl] && 'blur'}
-                    blurDataURL={post.thumbnails?.[coverUrl]}
+                    placeholder={post?.[coverUrl] && 'blur'}
+                    blurDataURL={post?.[coverUrl]}
                   />
                 </Link>
               </dt>
