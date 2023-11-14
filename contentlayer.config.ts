@@ -4,6 +4,7 @@ import readingTime from 'reading-time'
 import GithubSlugger from 'github-slugger'
 import path from 'path'
 // Remark packages
+import { TOC } from '@/types/server'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import {
@@ -39,7 +40,7 @@ const computedFields: ComputedFields = {
     type: 'string',
     resolve: (doc) => doc._raw.sourceFilePath,
   },
-  toc: { type: 'string', resolve: (doc) => extractTocHeadings(doc.body.raw) },
+  toc: { type: 'json', resolve: (doc) => extractTocHeadings(doc.body.raw) },
 }
 
 /**
