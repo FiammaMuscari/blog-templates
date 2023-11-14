@@ -9,7 +9,7 @@ import Comments from '@/components/Comments'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import TOCInline from '@/components/TOCInline'
 import { ReactNode } from 'react'
-import { Author, Blog } from 'contentlayer/generated'
+import { Authors, Blog } from 'contentlayer/generated'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 
@@ -21,7 +21,7 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 }
 
 interface Props {
-  authorDetails: CoreContent<Author>[]
+  authorDetails: CoreContent<Authors>[]
   content: CoreContent<Blog>
   next?: { slug: string; title: string }
   prev?: { slug: string; title: string }
@@ -30,7 +30,7 @@ interface Props {
 
 export default function PostLayout(props: Props) {
   const { authorDetails, content, next, prev, children } = props
-  const { filePath, path, slug, date, title, tags, images, showCover, toc, thumbnails } = content
+  const { filePath, path, slug, date, title, tags, images, toc } = content
   const basePath = path.split('/')[0]
   const coverUrl = images?.[0]
 
@@ -91,7 +91,7 @@ export default function PostLayout(props: Props) {
               <TOCInline asDisclosure={false} toc={toc} />
             </div>
             <div className="xl:col-span-3 xl:row-span-2 xl:pb-0">
-              {showCover && coverUrl ? (
+              {coverUrl ? (
                 <div className="relative aspect-video mt-6">
                   <Image
                     alt={title}
@@ -99,8 +99,8 @@ export default function PostLayout(props: Props) {
                     src={coverUrl}
                     fill
                     sizes="100vw"
-                    placeholder={thumbnails?.[coverUrl] && 'blur'}
-                    blurDataURL={thumbnails?.[coverUrl]}
+                    placeholder={[coverUrl] && 'blur'}
+                    blurDataURL={coverUrl}
                   />
                 </div>
               ) : null}

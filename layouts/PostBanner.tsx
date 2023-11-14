@@ -18,7 +18,7 @@ interface LayoutProps {
 }
 
 export default function PostMinimal({ content, next, prev, children }: LayoutProps) {
-  const { slug, title, images, thumbnails } = content
+  const { slug, title, images } = content
   const displayImage = images?.[0]
   return (
     <SectionContainer>
@@ -36,8 +36,8 @@ export default function PostMinimal({ content, next, prev, children }: LayoutPro
                       fill
                       className="object-cover"
                       sizes="100vw"
-                      placeholder={thumbnails?.[displayImage] && 'blur'}
-                      blurDataURL={thumbnails?.[displayImage]}
+                      placeholder={displayImage && 'blur'}
+                      blurDataURL={displayImage}
                     />
                   </div>
                 </Bleed>
