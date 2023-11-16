@@ -36,7 +36,7 @@ export default function Article(post: CoreContent<Blog>) {
             ) : null}
             <dd className="sr-only">Published On</dd>
             <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-              <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+              <time dateTime={date}>{formatDate(date, 'es-ES')}</time>
             </dd>
           </dl>
           <div className="space-y-4 xl:col-span-3">

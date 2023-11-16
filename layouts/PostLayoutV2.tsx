@@ -43,10 +43,10 @@ export default function PostLayout(props: Props) {
             <div className="space-y-1 text-center">
               <dl className="space-y-10">
                 <div>
-                  <dt className="sr-only">Published on</dt>
+                  <dt className="sr-only">Publicado el</dt>
                   <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                     <time dateTime={date}>
-                      {new Date(date).toLocaleDateString(siteMetadata.locale, postDateTemplate)}
+                      {new Date(date).toLocaleDateString('es-ES', postDateTemplate)}
                     </time>
                   </dd>
                 </div>
@@ -60,9 +60,9 @@ export default function PostLayout(props: Props) {
             className="divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0"
             style={{ gridTemplateRows: 'auto 1fr' }}
           >
-            <div className="">
+            <div className=" xl:sticky md:top-1 block">
               <dl className="pt-6 pb-10 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
-                <dt className="sr-only">Authors</dt>
+                <dt className="sr-only">Autor</dt>
                 <dd>
                   <ul className="flex justify-center space-x-8 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
                     {authorDetails.map((author) => (
@@ -77,18 +77,66 @@ export default function PostLayout(props: Props) {
                           />
                         )}
                         <dl className="whitespace-nowrap text-sm font-medium leading-5">
-                          <dt className="sr-only">Author</dt>
+                          <dt className="sr-only">Autor</dt>
                           <dd className="text-gray-900 dark:text-gray-100">{author.name}</dd>
                         </dl>
                       </li>
                     ))}
                   </ul>
+                  <div className="pt-4 xl:pt-8">
+                    <Link
+                      href={`/${basePath}`}
+                      className="text-primary-500 dark:text-teal-500 hover:text-primary-600  dark:hover:text-teal-400"
+                    >
+                      &larr; Vuelve al blog
+                    </Link>
+                  </div>
                 </dd>
               </dl>
               <h2 className="pt-6 text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                Table of Content
+                Tabla de contenido
               </h2>
               <TOCInline asDisclosure={false} toc={toc} />
+              <footer>
+                <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
+                  {tags && (
+                    <div className="py-4 xl:py-8">
+                      <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        Tags
+                      </h2>
+                      <div className="mt-3 flex flex-wrap">
+                        {tags.map((tag) => (
+                          <Tag key={tag} text={tag} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {(next || prev) && (
+                    <div className="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">
+                      {prev && (
+                        <div>
+                          <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            Anterior post
+                          </h2>
+                          <div className="mt-3 text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400">
+                            <Link href={`/blog/${prev.slug}`}>{prev.title}</Link>
+                          </div>
+                        </div>
+                      )}
+                      {next && (
+                        <div>
+                          <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            Siguiente post
+                          </h2>
+                          <div className="mt-3 text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400">
+                            <Link href={`/blog/${next.slug}`}>{next.title}</Link>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </footer>
             </div>
             <div className="xl:col-span-3 xl:row-span-2 xl:pb-0">
               {coverUrl ? (
@@ -107,9 +155,6 @@ export default function PostLayout(props: Props) {
               <div className="prose max-w-none break-words pt-10 pb-8 dark:prose-invert">
                 {children}
               </div>
-              <div className="border-t border-gray-200 pt-6 pb-6 text-sm text-gray-700 dark:border-gray-700 dark:text-gray-300">
-                <Link href={editUrl(filePath)}>{'View on GitHub'}</Link>
-              </div>
               {siteMetadata.comments && (
                 <div
                   className="pb-6 pt-6 text-center text-gray-700 dark:text-gray-300"
@@ -119,54 +164,6 @@ export default function PostLayout(props: Props) {
                 </div>
               )}
             </div>
-            <footer>
-              <div className="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
-                {tags && (
-                  <div className="py-4 xl:py-8">
-                    <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                      Tags
-                    </h2>
-                    <div className="mt-3 flex flex-wrap">
-                      {tags.map((tag) => (
-                        <Tag key={tag} text={tag} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {(next || prev) && (
-                  <div className="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">
-                    {prev && (
-                      <div>
-                        <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                          Previous Article
-                        </h2>
-                        <div className="mt-3 text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400">
-                          <Link href={`/blog/${prev.slug}`}>{prev.title}</Link>
-                        </div>
-                      </div>
-                    )}
-                    {next && (
-                      <div>
-                        <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                          Next Article
-                        </h2>
-                        <div className="mt-3 text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400">
-                          <Link href={`/blog/${next.slug}`}>{next.title}</Link>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-              <div className="pt-4 xl:pt-8">
-                <Link
-                  href={`/${basePath}`}
-                  className="text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400"
-                >
-                  &larr; Back to the blog
-                </Link>
-              </div>
-            </footer>
           </div>
         </div>
       </article>
