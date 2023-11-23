@@ -20,7 +20,7 @@ const Card = ({ title, description, imgSrc, href }) => {
       >
         {!imageLoaded && (
           <div className="object-cover object-center ">
-            <p className="md:h-36 flex justify-center lg:h-48 bg-gray-300 dark:bg-gray-700 animate-pulse">
+            <p className=" flex justify-center h-48 bg-gray-300 dark:bg-gray-700 animate-pulse">
               <svg
                 aria-hidden="true"
                 className=" m-auto w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300"
