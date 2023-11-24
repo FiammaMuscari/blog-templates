@@ -30,7 +30,7 @@ interface Props {
 
 export default function PostLayout(props: Props) {
   const { authorDetails, content, next, prev, children } = props
-  const { filePath, path, slug, date, title, tags, images, toc } = content
+  const { filePath, path, slug, date, title, tags, images, toc, lastmod } = content
   const basePath = path.split('/')[0]
   const coverUrl = images?.[0]
 
@@ -51,9 +51,66 @@ export default function PostLayout(props: Props) {
                   </dd>
                 </div>
               </dl>
+
               <div>
                 <PageTitle>{title}</PageTitle>
               </div>
+              {lastmod && (
+                <div>
+                  <dd className="text-base hidden my-3 md:flex justify-end gap-1 font-extralight text-gray-500 dark:text-gray-400">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+
+                    <time dateTime={lastmod}>
+                      {new Date(lastmod).toLocaleDateString('es-ES', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
+                    </time>
+                  </dd>
+                  <dd className="text-base my-3 md:hidden flex justify-end gap-1 font-extralight text-gray-500 dark:text-gray-400">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+
+                    <time dateTime={lastmod}>
+                      {new Date(lastmod)
+                        .toLocaleDateString('es-ES', {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                        })
+                        .split('/')
+                        .reverse()
+                        .join('/')}
+                    </time>
+                  </dd>
+                </div>
+              )}
             </div>
           </header>
           <div
