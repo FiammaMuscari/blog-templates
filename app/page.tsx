@@ -15,7 +15,7 @@ export default async function Page() {
             <TypedBios />
           </div>
           <Image
-            src="/chiiica.png"
+            src="/chica.webp"
             alt="profile"
             width={400}
             height={250}
