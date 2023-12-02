@@ -5,7 +5,6 @@ import Logo from '@/data/logo.svg'
 import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
-import SearchButton from './SearchButton'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
@@ -74,7 +73,6 @@ const Header = () => {
               {link.title}
             </Link>
           ))}
-        <SearchButton />
         <ThemeSwitch onToggle={handleToggle} />
         <MobileNav />
       </div>
