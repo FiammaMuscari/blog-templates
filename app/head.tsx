@@ -10,6 +10,14 @@ export default function Head() {
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       <meta content="width=device-width, initial-scale=1" name="viewport" />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNV15D97D7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZNV15D97D7');
+</script>
     </>
   )
 }

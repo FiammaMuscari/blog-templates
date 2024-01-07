@@ -75,40 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      <Script
-        id="google-ads"
-        async
-        strategy="lazyOnload"
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9547387897781374"
-        crossOrigin="anonymous"
-      />
-      <Script
-        id="google-ads-dangerous"
-        type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'http://schema.org',
-            '@type': 'blogspot',
-            url: 'https://github.com/FiammaMuscari/blog-templates',
-            name: 'blogtemplate',
-            description: 'a blogspot about tech and code',
-            license: 'https://en.wikipedia.org/wiki/MIT_License',
-            keywords: 'js,javascript,typescript,blog,nextjs',
-            isAccessibleForFree: true,
-            image:
-              'https://raw.githubusercontent.com/KingSora/OverlayScrollbars/master/logo/logo.png',
-            codeRepository: 'https://github.com/FiammaMuscari/blog-templates',
-            runtimePlatform: 'browser',
-            maintainer: {
-              '@type': 'Person',
-              name: 'fiammamuscari',
-              additionalName: 'fiammamuscari',
-              url: 'https://github.com/fiammamuscari',
-            },
-          }),
-        }}
-      />
+
       <body className="bg-[#fff8ee] text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
