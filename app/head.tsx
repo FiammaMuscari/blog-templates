@@ -2,7 +2,7 @@ import Script from 'next/script'
 
 export default function Head() {
   return (
-    <>
+    <head>
       <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico" />
       <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
       <link rel="manifest" href="/favicon.ico" />
@@ -20,6 +20,6 @@ export default function Head() {
  
           gtag('config', 'G-ZNV15D97D7');`}
       </Script>
-    </>
+    </head>
   )
 }

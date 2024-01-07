@@ -12,6 +12,7 @@ import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import Script from 'next/script'
+import Head from './head'
 
 const space_grotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -66,15 +67,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${space_grotesk.variable} scroll-smooth`}
       suppressHydrationWarning
     >
-      <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico" />
+      {/* <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico" />
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico" />
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico" />
       <link rel="manifest" href="/favicon.ico" />
       <link rel="mask-icon" href="/favicon.ico" color="#5bbad5" />
       <meta name="msapplication-TileColor" content="#000000" />
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
-      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
-      <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+      <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" /> 
+      <link rel="alternate" type="application/rss+xml" href="/feed.xml" />*/}
+      <Head />
       <body className="bg-[#fff8ee] text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
