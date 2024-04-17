@@ -33,7 +33,7 @@ const projectsData = [
     title: 'Robos MdQ',
     description: `Sitio web de robos con base de datos y mapbox. Se paga anualmente dominio.`,
     imgSrc: '/static/robos.webp',
-    href: 'https://robosmdq.site/',
+    href: 'https://robosmdpnext-fiammamuscari.vercel.app/',
   },
   {
     title: 'Rust Lang',

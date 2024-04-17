@@ -12,7 +12,7 @@ const Card = ({ title, description, imgSrc, href }) => {
   }
 
   return (
-    <div className="md max-w-[544px] p-4 ">
+    <div className="md max-w-[544px]  ">
       <div
         className={`flex flex-col ${
           imgSrc ? 'h-full' : ''
