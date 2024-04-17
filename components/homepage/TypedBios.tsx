@@ -32,7 +32,7 @@ export function TypedBios() {
   const initialMessage = '...'
 
   return (
-    <div className="dark:bg-cyan-950 bg-[#cca8ff82] md:ml-[7em] border-2 border-[#905fff] dark:border-white rounded-xl py-[20px] px-[15px]">
+    <div className="dark:bg-cyan-950 bg-[#cca8ff82] md:ml-[7em] border-2 border-[#905fff] dark:border-white rounded-xl rounded-br-none py-[30px] px-[15px]">
       <ul id="bios" className="hidden">
         <li>
           Hola soy Fiamma! <Twemoji emoji="video-game" />

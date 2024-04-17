@@ -1,9 +1,21 @@
 const projectsData = [
   {
+    title: 'Landing',
+    description: `Freelance en construcción 🚧 landing page.`,
+    imgSrc: '/static/landing.webp',
+    href: 'https://landing-template-tawny.vercel.app/',
+  },
+  {
+    title: 'Softbuilder',
+    description: `Freelance con CRM de Hubspot y nextjs.`,
+    imgSrc: '/static/softbuilder.webp',
+    href: 'https://www.softbuilder.io/',
+  },
+  {
     title: 'Belgaum Group',
     description: `Freelance para empresa de recursos humanos hecho en Nextjs, hubspot y newletter.`,
     imgSrc: '/static/belgaum.webp',
-    href: 'https://www.belgaum.com.ar',
+    href: 'https://belgaum.vercel.app/',
   },
   {
     title: 'Vision Deck',
