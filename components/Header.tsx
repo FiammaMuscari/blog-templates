@@ -20,36 +20,27 @@ const Header = () => {
     }
   }, [])
 
-  const handleToggle = (value: boolean | ((prevState: boolean) => boolean)) => {
-    setShowImage(value)
-    // Check if we are in the browser before using localStorage
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('favicon', String(value)) // Save choice to Local Storage
-    }
-  }
   return (
     <header className="flex items-center justify-between py-10">
       <div>
         <Link href="/" aria-label={siteMetadata.headerTitle}>
           <div className="flex items-center justify-between">
             <div className="mr-3">
-              {showImage ? (
-                <Image
-                  src="/favico2.webp"
-                  alt="logo"
-                  className="rounded-full"
-                  width={40}
-                  height={40}
-                />
-              ) : (
-                <Image
-                  src="/favicon.webp"
-                  alt="logo"
-                  className="rounded-full"
-                  width={40}
-                  height={40}
-                />
-              )}
+              <Image
+                src="/favicon.webp"
+                alt="logo"
+                className="block dark:hidden"
+                width={40}
+                height={40}
+              />
+
+              <Image
+                src="/favico2.webp"
+                alt="logo"
+                className="dark:block hidden"
+                width={40}
+                height={40}
+              />
             </div>
             {typeof siteMetadata.headerTitle === 'string' ? (
               <div className="hidden h-6 text-2xl font-semibold sm:block">
@@ -73,7 +64,7 @@ const Header = () => {
               {link.title}
             </Link>
           ))}
-        <ThemeSwitch onToggle={handleToggle} />
+        <ThemeSwitch />
         <MobileNav />
       </div>
     </header>
