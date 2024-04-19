@@ -14,7 +14,7 @@ export default function proyectos() {
           </h1>
         </div>
         <div className=" py-12">
-          <div className=" flex flex-wrap gap-12 justify-center">
+          <div className=" flex flex-wrap gap-12 justify-center ">
             {projectsData.map((d) => (
               <div
                 key={d.title}
@@ -23,8 +23,8 @@ export default function proyectos() {
                 <div
                   className={clsx(
                     'flex flex-col overflow-hidden xl:rounded-lg',
-                    'shadow-demure dark:prose-invert dark:shadow-mondegreen',
-                    'outline outline-1 outline-gray-100 dark:outline-gray-600'
+                    'shadow-[5px_5px_rgba(138,_43,_226,_0.2),_10px_10px_rgba(138,_43,_226,_0.15),_15px_15px_rgba(138,_43,_226,_0.1),_20px_20px_rgba(138,_43,_226,_0.05),_25px_25px_rgba(138,_43,_226,_0.025)] prose-invert dark:prose-invert dark:shadow-mondegreen',
+                    ' '
                   )}
                 >
                   <Card

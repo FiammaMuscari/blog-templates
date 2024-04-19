@@ -42,7 +42,11 @@ const Card = ({ title, description, imgSrc, href }) => {
         )}
 
         {imgSrc && (
-          <div className={`flex-shrink-0 ${imageLoaded ? '' : 'hidden'}`}>
+          <div
+            className={`flex-shrink-0 ${
+              imageLoaded ? '' : 'hidden'
+            } border-b border-solid border-purple-300 dark:border-black`}
+          >
             {href ? (
               <Link href={href} aria-label={`Link to ${title}`}>
                 <Image
@@ -69,7 +73,7 @@ const Card = ({ title, description, imgSrc, href }) => {
           </div>
         )}
 
-        <div className="flex-grow p-6 flex flex-col min-h-[13.3em] max-h-[13.3em]">
+        <div className="flex-grow p-6 flex flex-col min-h-[13.3em] max-h-[13.3em] ">
           <h2 className="mb-3 text-2xl font-bold leading-8 tracking-tight">
             {href ? (
               <Link
