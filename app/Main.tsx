@@ -46,7 +46,7 @@ export default function Home({ posts }: HomeProps) {
             className="text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-teal-400"
             aria-label="All posts"
           >
-            Ver todos &rarr;
+            Ver más &rarr;
           </Link>
         </div>
       )}

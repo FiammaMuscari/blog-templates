@@ -9,6 +9,7 @@ import Header from '@/components/Header'
 import SectionContainer from '@/components/SectionContainer'
 import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
+import ParticlesBackground from '@/components/ParticlesBackground'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
 import Script from 'next/script'
@@ -77,8 +78,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" /> 
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />*/}
       <Head />
-      <body className="bg-[#fff8ee] text-black antialiased dark:bg-gray-950 dark:text-white">
+      <body className="bg-gray-50 text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
+          <ParticlesBackground />
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
           <SectionContainer>
             <div className="flex h-screen flex-col justify-between font-sans">

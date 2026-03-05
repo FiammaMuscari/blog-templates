@@ -2,11 +2,40 @@ import { ReactNode } from 'react'
 import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
+import Card from '@/components/Card'
+import { clsx } from 'clsx'
 
 interface Props {
   children: ReactNode
   content: Omit<Authors, '_id' | '_raw' | 'body'>
 }
+
+const leetcodeVideos = [
+  {
+    title: 'Two Sum (Ts & python)',
+    description: 'Resolviendo el problema Two Sum en TypeScript y Python.',
+    imgSrc: 'https://img.youtube.com/vi/nOaJKWcCzlE/0.jpg',
+    href: 'https://www.youtube.com/watch?v=nOaJKWcCzlE',
+  },
+  {
+    title: 'Add Two Numbers (Ts & python)',
+    description: 'Suma de dos números representados como listas enlazadas.',
+    imgSrc: 'https://img.youtube.com/vi/dcBrX78iGRg/0.jpg',
+    href: 'https://www.youtube.com/watch?v=dcBrX78iGRg',
+  },
+  {
+    title: 'Longest Substring Without Repeating Characters',
+    description: 'Encontrar la subcadena más larga sin caracteres repetidos.',
+    imgSrc: 'https://img.youtube.com/vi/XfoOqz_4ob4/0.jpg',
+    href: 'https://www.youtube.com/watch?v=XfoOqz_4ob4',
+  },
+  {
+    title: 'Median of Two Sorted Arrays',
+    description: 'Encontrar la mediana de dos arrays ordenados con complejidad O(log n + m).',
+    imgSrc: 'https://img.youtube.com/vi/CllEfLpmGcc/0.jpg',
+    href: 'https://www.youtube.com/watch?v=CllEfLpmGcc',
+  },
+]
 
 export default function AuthorLayout({ children, content }: Props) {
   const { name, avatar, occupation, company, email, twitter, linkedin, github } = content
@@ -45,6 +74,42 @@ export default function AuthorLayout({ children, content }: Props) {
           </div>
         </div>
       </div>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700 mt-8">
+        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
+            LeetCode
+          </h1>
+          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
+            Tutoriales de algoritmos explicados paso a paso en TypeScript y Python.
+          </p>
+        </div>
+        <div className="py-12">
+          <div className="flex flex-wrap gap-12 justify-center">
+            {leetcodeVideos.map((video) => (
+              <div
+                key={video.title}
+                className="z-10 max-w-[19rem] mb-8 scale-100 hover:z-50 xl:mb-0 xl:hover:scale-[1.05]"
+              >
+                <div
+                  className={clsx(
+                    'flex flex-col overflow-hidden xl:rounded-lg',
+                    'bg-white shadow-md dark:bg-gray-900 dark:prose-invert dark:shadow-mondegreen'
+                  )}
+                >
+                  <Card
+                    title={video.title}
+                    description={video.description}
+                    imgSrc={video.imgSrc}
+                    href={video.href}
+                  />
+                  <span className="h-1.5 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </>
   )
 }
+

@@ -12,11 +12,10 @@ const Card = ({ title, description, imgSrc, href }) => {
   }
 
   return (
-    <div className="md max-w-[544px]  ">
+    <div className="md max-w-[544px] bg-white dark:bg-gray-950 rounded-md shadow-sm">
       <div
-        className={`flex flex-col ${
-          imgSrc ? 'h-full' : ''
-        } max-h-[30em] rounded-md overflow-hidden`}
+        className={`flex flex-col ${imgSrc ? 'h-full' : ''
+          } max-h-[30em] rounded-md overflow-hidden`}
       >
         {!imageLoaded && (
           <div className="object-cover object-center ">
@@ -43,9 +42,8 @@ const Card = ({ title, description, imgSrc, href }) => {
 
         {imgSrc && (
           <div
-            className={`flex-shrink-0 ${
-              imageLoaded ? '' : 'hidden'
-            } border-b border-solid border-purple-300 dark:border-black`}
+            className={`flex-shrink-0 ${imageLoaded ? '' : 'hidden'
+              } border-b border-solid border-purple-300 dark:border-black`}
           >
             {href ? (
               <Link href={href} aria-label={`Link to ${title}`}>

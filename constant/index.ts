@@ -3,4 +3,4 @@ export const SPOTIFY_NOW_PLAYING_API = `https://api.spotify.com/v1/me/player/cur
 export const SPOTIFY_TOP_TRACKS_API = `https://api.spotify.com/v1/me/top/tracks`
 
 export const POSTS_PER_PAGE = 5
-export const FEATURED_POSTS = 5
+export const FEATURED_POSTS = 3
