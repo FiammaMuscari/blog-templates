@@ -5,11 +5,29 @@ import Logo from '@/data/logo.svg'
 import Link from './Link'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
+import LangSwitch from './LangSwitch'
+import { useLang } from './LangContext'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
+const translations: Record<string, Record<string, string>> = {
+  es: {
+    Inicio: 'Inicio',
+    Blog: 'Blog',
+    Proyectos: 'Proyectos',
+    'Sobre mi': 'Sobre mi',
+  },
+  en: {
+    Inicio: 'Home',
+    Blog: 'Blog',
+    Proyectos: 'Projects',
+    'Sobre mi': 'About me',
+  },
+}
+
 const Header = () => {
   const [showImage, setShowImage] = useState(true) // Default value
+  const { lang } = useLang()
 
   useEffect(() => {
     // Check if we are in the browser before using localStorage
@@ -61,10 +79,11 @@ const Header = () => {
               href={link.href}
               className="link link-underline dark:bg-gradient-to-r from-cyan-300 to-cyan-300 hidden sm:block font-medium text-gray-900 dark:text-gray-100"
             >
-              {link.title}
+              {translations[lang][link.title] || link.title}
             </Link>
           ))}
         <ThemeSwitch />
+        <LangSwitch />
         <MobileNav />
       </div>
     </header>

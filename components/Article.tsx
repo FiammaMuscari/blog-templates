@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
@@ -6,9 +7,11 @@ import siteMetadata from '@/data/siteMetadata'
 import Image from '@/components/Image'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import { Blog } from 'contentlayer/generated'
+import { useLang } from '@/components/LangContext'
 
 export default function Article(post: CoreContent<Blog>) {
-  const { slug, date, title, summary, tags, images } = post
+  const { slug, date, title, title_en, summary, summary_en, tags, images } = post
+  const { lang } = useLang()
   const coverUrl = images?.[0]
   return (
     <li className="py-12 xl:hover:scale-105 xl:transition">
@@ -34,9 +37,9 @@ export default function Article(post: CoreContent<Blog>) {
                 </Link>
               </dt>
             ) : null}
-            <dd className="sr-only">Published On</dd>
+            <dd className="sr-only">{lang === 'es' ? 'Publicado el' : 'Published On'}</dd>
             <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-              <time dateTime={date}>{formatDate(date, 'es-ES')}</time>
+              <time dateTime={date}>{formatDate(date, lang === 'es' ? 'es-ES' : 'en-US')}</time>
             </dd>
           </dl>
           <div className="space-y-4 xl:col-span-3">
@@ -44,7 +47,7 @@ export default function Article(post: CoreContent<Blog>) {
               <div>
                 <h2 className="text-2xl font-bold leading-8 tracking-tight">
                   <Link href={`/blog/${slug}`} className="text-gray-900 dark:text-gray-100">
-                    {title}
+                    {lang === 'en' && title_en ? title_en : title}
                   </Link>
                 </h2>
                 <div className="mt-3 flex flex-wrap">
@@ -54,7 +57,7 @@ export default function Article(post: CoreContent<Blog>) {
                 </div>
               </div>
               <div className="prose max-w-none text-gray-500 dark:text-gray-400 xl:line-clamp-2">
-                {summary}
+                {lang === 'en' && summary_en ? summary_en : summary}
               </div>
             </div>
             <div className="text-base font-medium leading-6">
@@ -63,7 +66,7 @@ export default function Article(post: CoreContent<Blog>) {
                 className="text-primary-500 dark:text-teal-500  hover:text-primary-600 dark:hover:text-teal-400"
                 aria-label={`Read "${title}"`}
               >
-                Ver más &rarr;
+                {lang === 'en' ? 'See more \u2192' : 'Ver más \u2192'}
               </Link>
             </div>
           </div>

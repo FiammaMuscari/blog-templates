@@ -1,3 +1,5 @@
+'use client'
+
 import { ReactNode } from 'react'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import type { Blog, Authors } from 'contentlayer/generated'
@@ -9,6 +11,7 @@ import Image from '@/components/Image'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import ScrollTopAndComment from '@/components/ScrollTopAndComment'
+import { useLang } from '@/components/LangContext'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 
@@ -22,14 +25,35 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 interface LayoutProps {
   content: CoreContent<Blog>
   authorDetails: CoreContent<Authors>[]
-  next?: { path: string; title: string }
-  prev?: { path: string; title: string }
+  next?: { path: string; title: string; title_en?: string }
+  prev?: { path: string; title: string; title_en?: string }
   children: ReactNode
 }
 
 export default function PostLayout({ content, authorDetails, next, prev, children }: LayoutProps) {
-  const { filePath, path, slug, date, title, tags } = content
+  const { filePath, path, slug, date, tags } = content
   const basePath = path.split('/')[0]
+  const { lang } = useLang()
+  const title = lang === 'en' && content.title_en ? content.title_en : content.title
+
+  const t = {
+    es: {
+      published: 'Publicado el',
+      author: 'Autores',
+      back: '← Vuelve al blog',
+      tags: 'Etiquetas',
+      prev: 'Anterior post',
+      next: 'Siguiente post',
+    },
+    en: {
+      published: 'Published on',
+      author: 'Authors',
+      back: '← Back to the blog',
+      tags: 'Tags',
+      prev: 'Previous post',
+      next: 'Next post',
+    }
+  }[lang === 'en' ? 'en' : 'es']
 
   return (
     <SectionContainer>
@@ -40,10 +64,10 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             <div className="space-y-1 text-center">
               <dl className="space-y-10">
                 <div>
-                  <dt className="sr-only">Published on</dt>
+                  <dt className="sr-only">{t.published}</dt>
                   <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                     <time dateTime={date}>
-                      {new Date(date).toLocaleDateString('es-ES', postDateTemplate)}
+                      {new Date(date).toLocaleDateString(lang === 'en' ? 'en-US' : 'es-ES', postDateTemplate)}
                     </time>
                   </dd>
                 </div>
@@ -55,7 +79,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
           </header>
           <div className="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0">
             <dl className="pb-10 pt-6 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
-              <dt className="sr-only">Authors</dt>
+              <dt className="sr-only">{t.author}</dt>
               <dd>
                 <ul className="flex flex-wrap justify-center gap-4 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
                   {authorDetails.map((author) => (
@@ -106,7 +130,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 {tags && (
                   <div className="py-4 xl:py-8">
                     <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                      Tags
+                      {t.tags}
                     </h2>
                     <div className="flex flex-wrap">
                       {tags.map((tag) => (
@@ -120,20 +144,20 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     {prev && prev.path && (
                       <div>
                         <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                          Anterior post
+                          {t.prev}
                         </h2>
                         <div className="text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400">
-                          <Link href={`/${prev.path}`}>{prev.title}</Link>
+                          <Link href={`/${prev.path}`}>{lang === 'en' && prev.title_en ? prev.title_en : prev.title}</Link>
                         </div>
                       </div>
                     )}
                     {next && next.path && (
                       <div>
                         <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                          Siguiente post
+                          {t.next}
                         </h2>
                         <div className="text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400">
-                          <Link href={`/${next.path}`}>{next.title}</Link>
+                          <Link href={`/${next.path}`}>{lang === 'en' && next.title_en ? next.title_en : next.title}</Link>
                         </div>
                       </div>
                     )}
@@ -144,9 +168,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 <Link
                   href={`/${basePath}`}
                   className="text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400"
-                  aria-label="Vuelve al blog"
+                  aria-label={t.back}
                 >
-                  &larr; Vuelve al blog
+                  {t.back}
                 </Link>
               </div>
             </footer>

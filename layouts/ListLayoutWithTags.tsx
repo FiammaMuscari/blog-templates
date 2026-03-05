@@ -10,6 +10,24 @@ import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
 import tagData from 'app/tag-data.json'
+import { useLang } from '@/components/LangContext'
+
+const translations: Record<string, Record<string, string>> = {
+  es: {
+    PublishedOn: 'Publicado el',
+    Previous: 'Anterior',
+    Of: 'de',
+    Next: 'Siguiente',
+    Todos: 'Todos',
+  },
+  en: {
+    PublishedOn: 'Published On',
+    Previous: 'Previous',
+    Of: 'of',
+    Next: 'Next',
+    Todos: 'All',
+  },
+}
 
 interface PaginationProps {
   totalPages: number
@@ -27,13 +45,14 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
   const basePath = pathname.split('/')[1]
   const prevPage = currentPage - 1 > 0
   const nextPage = currentPage + 1 <= totalPages
+  const { lang } = useLang()
 
   return (
     <div className="space-y-2 pb-8 pt-6 md:space-y-5">
       <nav className="flex justify-between">
         {!prevPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
-            Previous
+            {translations[lang].Previous}
           </button>
         )}
         {prevPage && (
@@ -41,20 +60,20 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
             href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
             rel="prev"
           >
-            Previous
+            {translations[lang].Previous}
           </Link>
         )}
         <span>
-          {currentPage} of {totalPages}
+          {currentPage} {translations[lang].Of} {totalPages}
         </span>
         {!nextPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
-            Next
+            {translations[lang].Next}
           </button>
         )}
         {nextPage && (
           <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-            Next
+            {translations[lang].Next}
           </Link>
         )}
       </nav>
@@ -72,6 +91,7 @@ export default function ListLayoutWithTags({
   const tagCounts = tagData as Record<string, number>
   const tagKeys = Object.keys(tagCounts)
   const sortedTags = tagKeys.sort((a, b) => tagCounts[b] - tagCounts[a])
+  const { lang } = useLang()
 
   const displayPosts = initialDisplayPosts.length > 0 ? initialDisplayPosts : posts
 
@@ -80,20 +100,22 @@ export default function ListLayoutWithTags({
       <div>
         <div className="pb-6 pt-6">
           <h1 className="sm:hidden text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            {title}
+            {title === 'Todos' ? translations[lang].Todos : title}
           </h1>
         </div>
         <div className="flex sm:space-x-24">
           <div className="hidden max-h-screen h-full sm:flex flex-wrap bg-gray-50 dark:bg-gray-900/70 shadow-md pt-5 dark:shadow-gray-800/40 rounded min-w-[280px] max-w-[280px]">
             <div className="py-4 px-6">
               {pathname.startsWith('/blog') ? (
-                <h3 className="text-primary-500 dark:text-teal-500 font-bold uppercase">Todos</h3>
+                <h3 className="text-primary-500 dark:text-teal-500 font-bold uppercase">
+                  {translations[lang].Todos}
+                </h3>
               ) : (
                 <Link
                   href={`/blog`}
                   className="font-bold uppercase text-gray-700  hover:text-primary-500 dark:text-teal-500  dark:hover:text-teal-400"
                 >
-                  Todos
+                  {translations[lang].Todos}
                 </Link>
               )}
               <ul>
@@ -122,21 +144,23 @@ export default function ListLayoutWithTags({
           <div>
             <ul>
               {displayPosts.map((post) => {
-                const { path, date, title, summary, tags } = post
+                const { path, date, title, summary, tags, title_en, summary_en } = post
                 return (
                   <li key={path} className="py-5">
                     <article className="space-y-2 flex flex-col xl:space-y-0">
                       <dl>
-                        <dt className="sr-only">Publicado el</dt>
+                        <dt className="sr-only">{translations[lang].PublishedOn}</dt>
                         <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                          <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
+                          <time dateTime={date}>
+                            {formatDate(date, lang === 'es' ? 'es-ES' : 'en-US')}
+                          </time>
                         </dd>
                       </dl>
                       <div className="space-y-3">
                         <div>
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
                             <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
-                              {title}
+                              {lang === 'en' && title_en ? title_en : title}
                             </Link>
                           </h2>
                           <div className="flex flex-wrap">
@@ -144,7 +168,7 @@ export default function ListLayoutWithTags({
                           </div>
                         </div>
                         <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
+                          {lang === 'en' && summary_en ? summary_en : summary}
                         </div>
                       </div>
                     </article>

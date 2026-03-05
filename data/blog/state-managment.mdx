@@ -5,7 +5,11 @@ tags: ['react', 'apuntes', 'redux', 'redux-toolkit', 'context', 'zustand', 'mobx
 draft: false
 images: ['/static/blogs-banner/redux.webp']
 summary: Hablando de manejo de estados, no entendes qué es toolkit, cuándo usar context, y ahora tenés mobx y zustand, vení a llorar conmigo..
+summary_en: Speaking of state management, you don't understand what toolkit is, when to use context, and now you have mobx and zustand, come cry with me..
+title_en: Is Redux dead?
 ---
+
+<Trans lang="es">
 
 # Introducción
 
@@ -689,3 +693,1379 @@ const middleware = (store) => (next) => (action) => {
 La respuesta corta es no, [Redux](https://redux.js.org/) no está muerto. Sin embargo hay que reconocer que no es la única opción para manejar el estado en React. Existen otras bibliotecas que pueden realizar la misma tarea, y algunas de ellas son más fáciles de usar que otras en determinados contextos. Comparar Redux y Context de React podría asemejarse a comparar un dálmata con otro tipo de perro; **son esencialmente lo mismo** con enfoques diferentes. La elección entre ellos depende en gran medida de la magnitud y complejidad del proyecto, así como de las preferencias del equipo de desarrollo, todo depende, como siempre en el maravilloso mundo de la programación. ✨😏
 
 pd. si usas redux, que sea toolkit.
+
+</Trans>
+
+<Trans lang="en">
+
+# Introduction
+
+In the React universe, state management is vital for optimizing application performance and scalability. We know that Redux, a state management library, has been the leader in popularity. Is it still the leader today? 🤔
+
+## What is a state manager?💻
+
+Imagine your application is like a robot 🤖 that needs to remember important info, such as its health level in a video game where it can be attacked 🎮. A state manager acts like a notebook where the robot writes down its current health, and when something changes, like taking a hit, the state manager updates the information in the notebook. This helps all the other components of the robot know how much health is remaining without constantly having to ask each other. So, the state management helps keep everything organized and makes sure the robot (or your app) runs efficiently and coordinated. ✨
+
+## Redux and Redux Toolkit ⚛
+
+Redux acts as the master of ceremonies in JavaScript applications, especially in environments like React. It organizes and controls the state in a predictable way, making sure that information flows in one direction, thereby simplifying data management within the application.
+
+Redux Toolkit, on the other hand, acts as a more user-friendly version of Redux. Its goal is to simplify common tasks and reduce repetitive code boilerplate, which makes it easier to use Redux without sacrificing functionality. It's like having an assistant handling the most tedious tasks so you can focus on what's really important for your app.
+
+<div style={{ padding: '1em', borderRadius: '.25em', backgroundColor: '#c623ff2e' }}>
+  "Boilerplate" is like the set of standard instructions you need to copy-paste when
+  starting a project. They are lines of code that don't change much between different apps and
+  that are necessary for everything to work, but{' '}
+  <u>they do not directly contribute to the core logic</u>
+  of your program. In short, it is the repetitive and basic code that all projects share at the beginning.
+</div>
+
+If you want to see more about redux, on [LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:6967958845855793152/?updateEntityUrn=urn%3Ali%3Afs_feedUpdate%3A%28V2%2Curn%3Ali%3Aactivity%3A6967958845855793152%29) I have a post with repos, demos, and more complex practical examples.
+
+<div style={{ margin:'auto'}}>
+
+![store](https://www.esri.com/arcgis-blog/wp-content/uploads/2017/09/react-redux-overview-1024x731.png)
+
+</div>
+
+### Redux Syntax
+
+```js
+// Redux setup for a counter
+import { createStore } from 'redux'
+
+// Reducer
+const counterReducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + 1
+    case 'DECREMENT':
+      return state - 1
+    default:
+      return state
+  }
+}
+
+// Create Store
+const store = createStore(counterReducer)
+
+// Actions
+const incrementAction = { type: 'INCREMENT' }
+const decrementAction = { type: 'DECREMENT' }
+
+// Dispatch Actions
+store.dispatch(incrementAction)
+store.dispatch(decrementAction)
+
+// Get State
+const currentState = store.getState()
+```
+
+### Redux Toolkit Syntax
+
+```js
+// Redux Toolkit setup for a counter
+import { createSlice, configureStore } from '@reduxjs/toolkit'
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: 0,
+  reducers: {
+    increment: (state) => state + 1,
+    decrement: (state) => state - 1,
+  },
+})
+
+const store = configureStore({
+  reducer: counterSlice.reducer,
+})
+
+store.dispatch(counterSlice.actions.increment())
+```
+
+## Context and Provider in React
+
+Context consists of two main stars: the Provider and the Consumer. The Provider acts as the supreme guardian, wrapping your application and setting a special value called `value`, which will be shared with all child components.
+
+You can read more about Context in the official [docs](https://reactjs.org/docs/context.html) or also for your Next App in this other [link](https://vercel.com/guides/react-context-state-management-nextjs)
+
+**CounterContext.js**
+
+```js
+import React, { createContext, useContext, useState } from 'react'
+
+const CounterContext = createContext()
+
+const CounterProvider = ({ children }) => {
+  const [count, setCount] = useState(0)
+
+  const increment = () => {
+    setCount(count + 1)
+  }
+
+  const decrement = () => {
+    setCount(count - 1)
+  }
+
+  return (
+    <CounterContext.Provider value={{ count, increment, decrement }}>
+      {children}
+    </CounterContext.Provider>
+  )
+}
+
+export { CounterContext, CounterProvider }
+```
+
+**CounterDisplay.js**
+
+```js
+import React, { useContext } from 'react'
+import { CounterContext } from './CounterContext'
+
+const CounterDisplay = () => {
+  const { count } = useContext(CounterContext)
+
+  return (
+    <div>
+      <p>Counter: {count}</p>
+    </div>
+  )
+}
+
+export default CounterDisplay
+```
+
+**CounterButtons.js**
+
+```js
+import React, { useContext } from 'react'
+
+import { CounterContext } from './CounterContext'
+
+const CounterButtons = () => {
+  const { increment, decrement } = useContext(CounterContext)
+
+  return (
+    <div>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  )
+}
+
+export default CounterButtons
+```
+
+**App.js**
+
+```js
+import React from 'react'
+import { CounterProvider } from './CounterContext'
+import CounterDisplay from './CounterDisplay'
+import CounterButtons from './CounterButtons'
+
+const App = () => {
+  return (
+    <CounterProvider>
+      <CounterDisplay />
+      <CounterButtons />
+    </CounterProvider>
+  )
+}
+
+export default App
+```
+
+## MobX
+
+MobX is another option for state management, standing out for its simplicity and automatic updating capabilities when data changes; it's like a personal assistant making sure everything is orderly, and look at how nice it uses the at-symbol \@ 😍
+
+**CounterStore.js**
+
+```js
+import { observable, action } from 'mobx'
+
+class CounterStore {
+  @observable count = 0
+
+  @action increment = () => {
+    this.count += 1
+  }
+}
+
+const counterStore = new CounterStore()
+export default counterStore
+```
+
+**CounterDisplay.js**
+
+```js
+import React from 'react'
+import { observer } from 'mobx-react'
+import counterStore from './CounterStore'
+
+const CounterDisplay = observer(() => (
+  <div>
+    <p>Counter: {counterStore.count}</p>
+  </div>
+))
+
+export default CounterDisplay
+```
+
+**CounterButtons.js**
+
+```js
+import React from 'react'
+import { observer } from 'mobx-react'
+import counterStore from './CounterStore'
+
+const CounterButtons = observer(() => (
+  <div>
+    <button onClick={counterStore.increment}>Increment</button>
+  </div>
+))
+
+export default CounterButtons
+```
+
+**App.js**
+
+```js
+import React from 'react'
+import CounterDisplay from './CounterDisplay'
+import CounterButtons from './CounterButtons'
+
+const App = () => (
+  <div>
+    <CounterDisplay />
+    <CounterButtons />
+  </div>
+)
+
+export default App
+```
+
+Read the MobX docs [here](https://mobx.js.org/README.html)
+
+## Zustand
+
+Zustand, on the other hand, is a minimal and straight-forward library for managing state in React. It's like the minimalist superhero that gets the job done without unnecessary complications. It's been extremely popular among developers lately.
+
+store.js
+
+```js
+import create from 'zustand'
+
+const useCounterStore = create((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+  decrement: () => set((state) => ({ count: state.count - 1 })),
+}))
+
+export default useCounterStore
+```
+
+**CounterDisplay.js**
+
+```js
+import React from 'react'
+import useCounterStore from './store'
+
+const CounterDisplay = () => {
+  const count = useCounterStore((state) => state.count)
+
+  return (
+    <div>
+      <p>Counter: {count}</p>
+    </div>
+  )
+}
+
+export default CounterDisplay
+```
+
+**CounterButtons.js**
+
+```js
+import React from 'react'
+import useCounterStore from './store'
+
+const CounterButtons = () => {
+  const increment = useCounterStore((state) => state.increment)
+  const decrement = useCounterStore((state) => state.decrement)
+
+  return (
+    <div>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  )
+}
+
+export default CounterButtons
+```
+
+App.js
+
+```js
+import React from 'react'
+import CounterDisplay from './CounterDisplay'
+import CounterButtons from './CounterButtons'
+
+const App = () => (
+  <div>
+    <CounterDisplay />
+    <CounterButtons />
+  </div>
+)
+
+export default App
+```
+
+Read the Zustand docs [here](https://zustand-demo.pmnd.rs/)
+
+## Recoil
+
+Recoil is an experimental library by Facebook for managing state in React applications. It's like a state management system that adapts to your needs, like a chameleon 🦎
+
+**atom.js**
+
+```js
+import { atom } from 'recoil'
+
+export const counterState = atom({
+  key: 'counterState',
+  default: 0,
+})
+```
+
+**CounterDisplay.js**
+
+```js
+import React from 'react'
+import { useRecoilValue } from 'recoil'
+import { counterState } from './atom'
+
+const CounterDisplay = () => {
+  const count = useRecoilValue(counterState)
+
+  return (
+    <div>
+      <p>Counter: {count}</p>
+    </div>
+  )
+}
+
+export default CounterDisplay
+```
+
+**CounterButtons.js**
+
+```js
+import React from 'react'
+import { useRecoilState } from 'recoil'
+import { counterState } from './atom'
+
+const CounterButtons = () => {
+  const [count, setCount] = useRecoilState(counterState)
+
+  const increment = () => setCount((prevCount) => prevCount + 1)
+  const decrement = () => setCount((prevCount) => prevCount - 1)
+
+  return (
+    <div>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  )
+}
+
+export default CounterButtons
+```
+
+**App.js**
+
+```js
+import React from 'react'
+import { RecoilRoot } from 'recoil'
+import CounterDisplay from './CounterDisplay'
+import CounterButtons from './CounterButtons'
+
+const App = () => (
+  <RecoilRoot>
+    <div>
+      <CounterDisplay />
+      <CounterButtons />
+    </div>
+  </RecoilRoot>
+)
+
+export default App
+```
+
+Read the Recoil docs [here](https://recoiljs.org/)
+
+## Comparison Chart
+
+<div className="full-bleed p-4 bg-[#c623ff2e] overflow-auto">
+  <div className="overflow-x-auto">
+    <table className="min-w-full border-none rounded">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Key Features</th>
+        <th scope="col">Popularity</th>
+        <th scope="col">Main Syntax</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <th scope="row">Redux</th>
+        <td>State management library for JavaScript, commonly used with React.</td>
+        <td>Unidirectional data flow, actions, reducers, store.</td>
+        <td>High</td>
+        <td>Actions, Reducers, Store</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Redux Toolkit</th>
+        <td>Collection of utility functions that simplify the use of Redux.</td>
+        <td>createSlice, configureStore, createAsyncThunk, less boilerplate.</td>
+        <td>Growing</td>
+        <td>createSlice, configureStore</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Context/Provider</th>
+        <td>Part of React tools for state management.</td>
+        <td>Provides a context to pass data through the component tree.</td>
+        <td>Common</td>
+        <td>Context.Provider, useContext</td>
+      </tr>
+
+      <tr>
+        <th scope="row">MobX</th>
+        <td>Simple and scalable state management library.</td>
+        <td>Observables, reactions, actions.</td>
+        <td>Growing</td>
+        <td>@observable, @action</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Zustand</th>
+        <td>Tiny library to handle global state in React.</td>
+        <td>Store, actions, hooks, minimal boilerplate.</td>
+        <td>Growing</td>
+        <td>create, immer, useStore</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Recoil</th>
+        <td>Experimental Facebook library for state management in React apps.</td>
+        <td>Atoms, selectors, declarative state handling.</td>
+        <td>Growing</td>
+        <td>atom, selector</td>
+        </tr>
+    </tbody>
+
+  </table>
+</div>
+</div>
+
+## Advanced State Management Methods
+
+Keep in mind that beyond choosing an alternative library, you can employ advanced state management techniques to optimize managing state in your application.
+
+### State Composition 🧩
+
+State composition implies dividing your application's state into smaller, more manageable parts. Each part can have its own logic and actions, enabling modularity and maintainability of your code. For instance, in a user and product management system, you could have a separate state for users and another for products.
+
+```js
+import React, { useState } from 'react'
+
+// State for user management
+const initialUsersState = [
+  { id: 1, name: 'User 1' },
+  { id: 2, name: 'User 2' },
+]
+
+// State for product management
+const initialProductsState = [
+  { id: 101, name: 'Product A', price: 20 },
+  { id: 102, name: 'Product B', price: 30 },
+]
+
+const UsersComponent = () => {
+  const [users, setUsers] = useState(initialUsersState)
+
+  const addUser = (newUser) => {
+    setUsers([...users, newUser])
+  }
+
+  return (
+    <div>
+      <h2>Users</h2>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+const ProductsComponent = () => {
+  const [products, setProducts] = useState(initialProductsState)
+
+  const addProduct = (newProduct) => {
+    setProducts([...products, newProduct])
+  }
+
+  return (
+    <div>
+      <h2>Products</h2>
+      <ul>
+        {products.map((product) => (
+          <li key={product.id}>
+            {product.name} - ${product.price}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+const App = () => {
+  return (
+    <div>
+      <UsersComponent />
+      <ProductsComponent />
+    </div>
+  )
+}
+
+export default App
+```
+
+### Dynamic State Updates 🔄
+
+Dynamic state updates respond to user interactions or specific events. For example, you could have a state update that responds to a WebSocket message or a form that a user submits.
+
+```js
+import React, { useState, useEffect } from 'react'
+
+const ChatApp = () => {
+  const [messages, setMessages] = useState([])
+
+  // We mock a WebSocket connection with useEffect
+  useEffect(() => {
+    const socket = new WebSocket('ws://my-websocket-server')
+
+    // Handle incoming messages
+    socket.addEventListener('message', (event) => {
+      const newMessage = JSON.parse(event.data)
+      setMessages((prevMessages) => [...prevMessages, newMessage])
+    })
+
+    // Clean up socket when component unmounts
+    return () => {
+      socket.close()
+    }
+  }, []) // empty so it only runs once on component mount
+
+  const sendMessage = (text) => {
+    // We mock sending a message via WebSocket
+    const newMessage = { user: 'User1', text, timestamp: new Date().toLocaleTimeString() }
+    setMessages((prevMessages) => [...prevMessages, newMessage])
+  }
+
+  return (
+    <div>
+      <h2>Chat</h2>
+      <ul>
+        {messages.map((message, index) => (
+          <li key={index}>
+            <strong>{message.user}:</strong> {message.text} - {message.timestamp}
+          </li>
+        ))}
+      </ul>
+      <button onClick={() => sendMessage('Hi, how are you all?')}>Send Message</button>
+    </div>
+  )
+}
+
+export default ChatApp
+```
+
+### State Persistence 📦
+
+State persistence involves storing application state in the browser, such as in `localStorage` or `sessionStorage`. This is useful for preserving user preferences between sessions.
+
+```js
+import React, { useState, useEffect } from 'react'
+
+const TaskApp = () => {
+  const [tasks, setTasks] = useState(getTasksFromSessionStorage())
+
+  const getTasksFromSessionStorage = () => {
+    const storedTasks = sessionStorage.getItem('tasks')
+    try {
+      return storedTasks ? JSON.parse(storedTasks) : []
+    } catch (error) {
+      console.error('Error parsing JSON:', error)
+      return []
+    }
+  }
+
+  const addTask = (newTask) => {
+    if (newTask.trim() === '') {
+      alert('Please enter a valid task.')
+      return
+    }
+
+    setTasks([...tasks, newTask])
+  }
+
+  useEffect(() => {
+    sessionStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks])
+
+  return (
+    <div>
+      <h2>Task List</h2>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>{task}</li>
+        ))}
+      </ul>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          const newTask = e.target.task.value
+          addTask(newTask)
+          e.target.task.value = ''
+        }}
+      >
+        <input type="text" name="task" placeholder="New task" />
+        <button type="submit">Add Task</button>
+      </form>
+    </div>
+  )
+}
+
+export default TaskApp
+```
+
+### Middleware Integration ⚙️
+
+Middleware integration allows handling side effects like data-fetching asynchronously or authentication. For example, in Redux, you can use middleware to perform extra actions before an action reaches the reducer.
+
+```js
+// Utilize middleware to handle user authentication
+const middleware = (store) => (next) => (action) => {
+  if (action.type === 'LOGIN') {
+    // Execute asynchronous actions like authentication
+    // Later, dispatch to update state
+    store.dispatch({ type: 'LOGIN_SUCCESS', payload: user })
+  }
+}
+```
+
+## So, is Redux dead?
+
+The short answer is no, [Redux](https://redux.js.org/) is not dead. However we have to recognize that it's no longer the only option for state management in React. There are other libraries that achieve the same tasks, and some of them are easier to use than others depending on the context. Comparing Redux to React Context could feel like comparing a Dalmata with another type of dog; **they are essentially the same** with a different approach. Choosing between them usually depends a lot on the size and scope of the project, alongside the preferences of the dev team; as always in the wonderful programming world, it all comes down to "it depends" ✨😏
+
+ps. if you use redux, go with toolkit.
+
+</Trans>
+
+<Trans lang="en">
+
+# Introduction
+
+In the React universe, state management is vital for optimizing application performance and scalability. We know that Redux, a state management library, has been the leader in popularity. Is it still the leader today? 🤔
+
+## What is a state manager?💻
+
+Imagine your application is like a robot 🤖 that needs to remember important info, such as its health level in a video game where it can be attacked 🎮. A state manager acts like a notebook where the robot writes down its current health, and when something changes, like taking a hit, the state manager updates the information in the notebook. This helps all the other components of the robot know how much health is remaining without constantly having to ask each other. So, the state management helps keep everything organized and makes sure the robot (or your app) runs efficiently and coordinated. ✨
+
+## Redux and Redux Toolkit ⚛
+
+Redux acts as the master of ceremonies in JavaScript applications, especially in environments like React. It organizes and controls the state in a predictable way, making sure that information flows in one direction, thereby simplifying data management within the application.
+
+Redux Toolkit, on the other hand, acts as a more user-friendly version of Redux. Its goal is to simplify common tasks and reduce repetitive code boilerplate, which makes it easier to use Redux without sacrificing functionality. It's like having an assistant handling the most tedious tasks so you can focus on what's really important for your app.
+
+<div style={{ padding: '1em', borderRadius: '.25em', backgroundColor: '#c623ff2e' }}>
+  "Boilerplate" is like the set of standard instructions you need to copy-paste when
+  starting a project. They are lines of code that don't change much between different apps and
+  that are necessary for everything to work, but{' '}
+  <u>they do not directly contribute to the core logic</u>
+  of your program. In short, it is the repetitive and basic code that all projects share at the beginning.
+</div>
+
+If you want to see more about redux, on [LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:6967958845855793152/?updateEntityUrn=urn%3Ali%3Afs_feedUpdate%3A%28V2%2Curn%3Ali%3Aactivity%3A6967958845855793152%29) I have a post with repos, demos, and more complex practical examples.
+
+<div style={{ margin:'auto'}}>
+
+![store](https://www.esri.com/arcgis-blog/wp-content/uploads/2017/09/react-redux-overview-1024x731.png)
+
+</div>
+
+### Redux Syntax
+
+```js
+// Redux setup for a counter
+import { createStore } from 'redux'
+
+// Reducer
+const counterReducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT':
+      return state + 1
+    case 'DECREMENT':
+      return state - 1
+    default:
+      return state
+  }
+}
+
+// Create Store
+const store = createStore(counterReducer)
+
+// Actions
+const incrementAction = { type: 'INCREMENT' }
+const decrementAction = { type: 'DECREMENT' }
+
+// Dispatch Actions
+store.dispatch(incrementAction)
+store.dispatch(decrementAction)
+
+// Get State
+const currentState = store.getState()
+```
+
+### Redux Toolkit Syntax
+
+```js
+// Redux Toolkit setup for a counter
+import { createSlice, configureStore } from '@reduxjs/toolkit'
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: 0,
+  reducers: {
+    increment: (state) => state + 1,
+    decrement: (state) => state - 1,
+  },
+})
+
+const store = configureStore({
+  reducer: counterSlice.reducer,
+})
+
+store.dispatch(counterSlice.actions.increment())
+```
+
+## Context and Provider in React
+
+Context consists of two main stars: the Provider and the Consumer. The Provider acts as the supreme guardian, wrapping your application and setting a special value called `value`, which will be shared with all child components.
+
+You can read more about Context in the official [docs](https://reactjs.org/docs/context.html) or also for your Next App in this other [link](https://vercel.com/guides/react-context-state-management-nextjs)
+
+**CounterContext.js**
+
+```js
+import React, { createContext, useContext, useState } from 'react'
+
+const CounterContext = createContext()
+
+const CounterProvider = ({ children }) => {
+  const [count, setCount] = useState(0)
+
+  const increment = () => {
+    setCount(count + 1)
+  }
+
+  const decrement = () => {
+    setCount(count - 1)
+  }
+
+  return (
+    <CounterContext.Provider value={{ count, increment, decrement }}>
+      {children}
+    </CounterContext.Provider>
+  )
+}
+
+export { CounterContext, CounterProvider }
+```
+
+**CounterDisplay.js**
+
+```js
+import React, { useContext } from 'react'
+import { CounterContext } from './CounterContext'
+
+const CounterDisplay = () => {
+  const { count } = useContext(CounterContext)
+
+  return (
+    <div>
+      <p>Counter: {count}</p>
+    </div>
+  )
+}
+
+export default CounterDisplay
+```
+
+**CounterButtons.js**
+
+```js
+import React, { useContext } from 'react'
+
+import { CounterContext } from './CounterContext'
+
+const CounterButtons = () => {
+  const { increment, decrement } = useContext(CounterContext)
+
+  return (
+    <div>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  )
+}
+
+export default CounterButtons
+```
+
+**App.js**
+
+```js
+import React from 'react'
+import { CounterProvider } from './CounterContext'
+import CounterDisplay from './CounterDisplay'
+import CounterButtons from './CounterButtons'
+
+const App = () => {
+  return (
+    <CounterProvider>
+      <CounterDisplay />
+      <CounterButtons />
+    </CounterProvider>
+  )
+}
+
+export default App
+```
+
+## MobX
+
+MobX is another option for state management, standing out for its simplicity and automatic updating capabilities when data changes; it's like a personal assistant making sure everything is orderly, and look at how nice it uses the at-symbol \@ 😍
+
+**CounterStore.js**
+
+```js
+import { observable, action } from 'mobx'
+
+class CounterStore {
+  @observable count = 0
+
+  @action increment = () => {
+    this.count += 1
+  }
+}
+
+const counterStore = new CounterStore()
+export default counterStore
+```
+
+**CounterDisplay.js**
+
+```js
+import React from 'react'
+import { observer } from 'mobx-react'
+import counterStore from './CounterStore'
+
+const CounterDisplay = observer(() => (
+  <div>
+    <p>Counter: {counterStore.count}</p>
+  </div>
+))
+
+export default CounterDisplay
+```
+
+**CounterButtons.js**
+
+```js
+import React from 'react'
+import { observer } from 'mobx-react'
+import counterStore from './CounterStore'
+
+const CounterButtons = observer(() => (
+  <div>
+    <button onClick={counterStore.increment}>Increment</button>
+  </div>
+))
+
+export default CounterButtons
+```
+
+**App.js**
+
+```js
+import React from 'react'
+import CounterDisplay from './CounterDisplay'
+import CounterButtons from './CounterButtons'
+
+const App = () => (
+  <div>
+    <CounterDisplay />
+    <CounterButtons />
+  </div>
+)
+
+export default App
+```
+
+Read the MobX docs [here](https://mobx.js.org/README.html)
+
+## Zustand
+
+Zustand, on the other hand, is a minimal and straight-forward library for managing state in React. It's like the minimalist superhero that gets the job done without unnecessary complications. It's been extremely popular among developers lately.
+
+store.js
+
+```js
+import create from 'zustand'
+
+const useCounterStore = create((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+  decrement: () => set((state) => ({ count: state.count - 1 })),
+}))
+
+export default useCounterStore
+```
+
+**CounterDisplay.js**
+
+```js
+import React from 'react'
+import useCounterStore from './store'
+
+const CounterDisplay = () => {
+  const count = useCounterStore((state) => state.count)
+
+  return (
+    <div>
+      <p>Counter: {count}</p>
+    </div>
+  )
+}
+
+export default CounterDisplay
+```
+
+**CounterButtons.js**
+
+```js
+import React from 'react'
+import useCounterStore from './store'
+
+const CounterButtons = () => {
+  const increment = useCounterStore((state) => state.increment)
+  const decrement = useCounterStore((state) => state.decrement)
+
+  return (
+    <div>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  )
+}
+
+export default CounterButtons
+```
+
+App.js
+
+```js
+import React from 'react'
+import CounterDisplay from './CounterDisplay'
+import CounterButtons from './CounterButtons'
+
+const App = () => (
+  <div>
+    <CounterDisplay />
+    <CounterButtons />
+  </div>
+)
+
+export default App
+```
+
+Read the Zustand docs [here](https://zustand-demo.pmnd.rs/)
+
+## Recoil
+
+Recoil is an experimental library by Facebook for managing state in React applications. It's like a state management system that adapts to your needs, like a chameleon 🦎
+
+**atom.js**
+
+```js
+import { atom } from 'recoil'
+
+export const counterState = atom({
+  key: 'counterState',
+  default: 0,
+})
+```
+
+**CounterDisplay.js**
+
+```js
+import React from 'react'
+import { useRecoilValue } from 'recoil'
+import { counterState } from './atom'
+
+const CounterDisplay = () => {
+  const count = useRecoilValue(counterState)
+
+  return (
+    <div>
+      <p>Counter: {count}</p>
+    </div>
+  )
+}
+
+export default CounterDisplay
+```
+
+**CounterButtons.js**
+
+```js
+import React from 'react'
+import { useRecoilState } from 'recoil'
+import { counterState } from './atom'
+
+const CounterButtons = () => {
+  const [count, setCount] = useRecoilState(counterState)
+
+  const increment = () => setCount((prevCount) => prevCount + 1)
+  const decrement = () => setCount((prevCount) => prevCount - 1)
+
+  return (
+    <div>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  )
+}
+
+export default CounterButtons
+```
+
+**App.js**
+
+```js
+import React from 'react'
+import { RecoilRoot } from 'recoil'
+import CounterDisplay from './CounterDisplay'
+import CounterButtons from './CounterButtons'
+
+const App = () => (
+  <RecoilRoot>
+    <div>
+      <CounterDisplay />
+      <CounterButtons />
+    </div>
+  </RecoilRoot>
+)
+
+export default App
+```
+
+Read the Recoil docs [here](https://recoiljs.org/)
+
+## Comparison Chart
+
+<div className="full-bleed p-4 bg-[#c623ff2e] overflow-auto">
+  <div className="overflow-x-auto">
+    <table className="min-w-full border-none rounded">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Key Features</th>
+        <th scope="col">Popularity</th>
+        <th scope="col">Main Syntax</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <th scope="row">Redux</th>
+        <td>State management library for JavaScript, commonly used with React.</td>
+        <td>Unidirectional data flow, actions, reducers, store.</td>
+        <td>High</td>
+        <td>Actions, Reducers, Store</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Redux Toolkit</th>
+        <td>Collection of utility functions that simplify the use of Redux.</td>
+        <td>createSlice, configureStore, createAsyncThunk, less boilerplate.</td>
+        <td>Growing</td>
+        <td>createSlice, configureStore</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Context/Provider</th>
+        <td>Part of React tools for state management.</td>
+        <td>Provides a context to pass data through the component tree.</td>
+        <td>Common</td>
+        <td>Context.Provider, useContext</td>
+      </tr>
+
+      <tr>
+        <th scope="row">MobX</th>
+        <td>Simple and scalable state management library.</td>
+        <td>Observables, reactions, actions.</td>
+        <td>Growing</td>
+        <td>@observable, @action</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Zustand</th>
+        <td>Tiny library to handle global state in React.</td>
+        <td>Store, actions, hooks, minimal boilerplate.</td>
+        <td>Growing</td>
+        <td>create, immer, useStore</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Recoil</th>
+        <td>Experimental Facebook library for state management in React apps.</td>
+        <td>Atoms, selectors, declarative state handling.</td>
+        <td>Growing</td>
+        <td>atom, selector</td>
+        </tr>
+    </tbody>
+
+  </table>
+</div>
+</div>
+
+## Advanced State Management Methods
+
+Keep in mind that beyond choosing an alternative library, you can employ advanced state management techniques to optimize managing state in your application.
+
+### State Composition 🧩
+
+State composition implies dividing your application's state into smaller, more manageable parts. Each part can have its own logic and actions, enabling modularity and maintainability of your code. For instance, in a user and product management system, you could have a separate state for users and another for products.
+
+```js
+import React, { useState } from 'react'
+
+// State for user management
+const initialUsersState = [
+  { id: 1, name: 'User 1' },
+  { id: 2, name: 'User 2' },
+]
+
+// State for product management
+const initialProductsState = [
+  { id: 101, name: 'Product A', price: 20 },
+  { id: 102, name: 'Product B', price: 30 },
+]
+
+const UsersComponent = () => {
+  const [users, setUsers] = useState(initialUsersState)
+
+  const addUser = (newUser) => {
+    setUsers([...users, newUser])
+  }
+
+  return (
+    <div>
+      <h2>Users</h2>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+const ProductsComponent = () => {
+  const [products, setProducts] = useState(initialProductsState)
+
+  const addProduct = (newProduct) => {
+    setProducts([...products, newProduct])
+  }
+
+  return (
+    <div>
+      <h2>Products</h2>
+      <ul>
+        {products.map((product) => (
+          <li key={product.id}>
+            {product.name} - ${product.price}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+const App = () => {
+  return (
+    <div>
+      <UsersComponent />
+      <ProductsComponent />
+    </div>
+  )
+}
+
+export default App
+```
+
+### Dynamic State Updates 🔄
+
+Dynamic state updates respond to user interactions or specific events. For example, you could have a state update that responds to a WebSocket message or a form that a user submits.
+
+```js
+import React, { useState, useEffect } from 'react'
+
+const ChatApp = () => {
+  const [messages, setMessages] = useState([])
+
+  // We mock a WebSocket connection with useEffect
+  useEffect(() => {
+    const socket = new WebSocket('ws://my-websocket-server')
+
+    // Handle incoming messages
+    socket.addEventListener('message', (event) => {
+      const newMessage = JSON.parse(event.data)
+      setMessages((prevMessages) => [...prevMessages, newMessage])
+    })
+
+    // Clean up socket when component unmounts
+    return () => {
+      socket.close()
+    }
+  }, []) // empty so it only runs once on component mount
+
+  const sendMessage = (text) => {
+    // We mock sending a message via WebSocket
+    const newMessage = { user: 'User1', text, timestamp: new Date().toLocaleTimeString() }
+    setMessages((prevMessages) => [...prevMessages, newMessage])
+  }
+
+  return (
+    <div>
+      <h2>Chat</h2>
+      <ul>
+        {messages.map((message, index) => (
+          <li key={index}>
+            <strong>{message.user}:</strong> {message.text} - {message.timestamp}
+          </li>
+        ))}
+      </ul>
+      <button onClick={() => sendMessage('Hi, how are you all?')}>Send Message</button>
+    </div>
+  )
+}
+
+export default ChatApp
+```
+
+### State Persistence 📦
+
+State persistence involves storing application state in the browser, such as in `localStorage` or `sessionStorage`. This is useful for preserving user preferences between sessions.
+
+```js
+import React, { useState, useEffect } from 'react'
+
+const TaskApp = () => {
+  const [tasks, setTasks] = useState(getTasksFromSessionStorage())
+
+  const getTasksFromSessionStorage = () => {
+    const storedTasks = sessionStorage.getItem('tasks')
+    try {
+      return storedTasks ? JSON.parse(storedTasks) : []
+    } catch (error) {
+      console.error('Error parsing JSON:', error)
+      return []
+    }
+  }
+
+  const addTask = (newTask) => {
+    if (newTask.trim() === '') {
+      alert('Please enter a valid task.')
+      return
+    }
+
+    setTasks([...tasks, newTask])
+  }
+
+  useEffect(() => {
+    sessionStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks])
+
+  return (
+    <div>
+      <h2>Task List</h2>
+      <ul>
+        {tasks.map((task, index) => (
+          <li key={index}>{task}</li>
+        ))}
+      </ul>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          const newTask = e.target.task.value
+          addTask(newTask)
+          e.target.task.value = ''
+        }}
+      >
+        <input type="text" name="task" placeholder="New task" />
+        <button type="submit">Add Task</button>
+      </form>
+    </div>
+  )
+}
+
+export default TaskApp
+```
+
+### Middleware Integration ⚙️
+
+Middleware integration allows handling side effects like data-fetching asynchronously or authentication. For example, in Redux, you can use middleware to perform extra actions before an action reaches the reducer.
+
+```js
+// Utilize middleware to handle user authentication
+const middleware = (store) => (next) => (action) => {
+  if (action.type === 'LOGIN') {
+    // Execute asynchronous actions like authentication
+    // Later, dispatch to update state
+    store.dispatch({ type: 'LOGIN_SUCCESS', payload: user })
+  }
+}
+```
+
+## So, is Redux dead?
+
+The short answer is no, [Redux](https://redux.js.org/) is not dead. However we have to recognize that it's no longer the only option for state management in React. There are other libraries that achieve the same tasks, and some of them are easier to use than others depending on the context. Comparing Redux to React Context could feel like comparing a Dalmata with another type of dog; **they are essentially the same** with a different approach. Choosing between them usually depends a lot on the size and scope of the project, alongside the preferences of the dev team; as always in the wonderful programming world, it all comes down to "it depends" ✨😏
+
+ps. if you use redux, go with toolkit.
+
+</Trans>

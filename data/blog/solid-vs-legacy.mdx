@@ -5,7 +5,11 @@ tags: ['solid', 'legacy']
 images: ['/static/blogs-banner/principios.webp']
 draft: false
 summary: Te voy a contar por qué es importante conocer los principios SOLID y cómo aplicarlos refactorizando tu código legacy con algunos ejemplos, adelante!
+summary_en: I'll tell you why it's important to know the SOLID principles and how to apply them refactoring your legacy code with some examples, come on in!
+title_en: Let's talk about SOLID
 ---
+
+<Trans lang="es">
 
 # ¿Qué es SOLID?
 
@@ -360,3 +364,363 @@ report_generator.generate_report(data)
 # Conclusión 🚀
 
 Los principios SOLID son como la Biblia del buen código, fácil de mantener y extender. Si bien es posible que no siempre sea posible aplicarlos es importante tenerlos en cuenta al escribir código para evitar problemas en el futuro. Espero que les haya gustado, cualquier duda o sugerencia me lo pueden dejar acá abajo en los comentarios, buen día y felices fiestas! 🎄🎅🏻
+
+</Trans>
+
+<Trans lang="en">
+
+# What is SOLID?
+
+The S.O.L.I.D. principles are a set of five software design principles focused on creating code that is easier to understand, maintain, and extend. These principles were introduced by Robert C. Martin (but we will call him Uncle Bob) in the early 2000s and have become a fundamental part of object-oriented programming.
+
+<img
+  src="https://ia802607.us.archive.org/view_archive.php?archive=/31/items/l_covers_0010/l_covers_0010_72.zip&file=0010721801-L.jpg"
+  alt="Robert C. Martin photo"
+  className="flex m-auto py-[3em]"
+/>
+
+# Relationship with Legacy Code
+
+Legacy code refers to <u>existing code</u> in a project that has been created by other developers in the past and can be difficult to understand, maintain, and update. This code usually uses outdated technologies, suboptimal coding practices, or tends to be undocumented (always comment what your code does capicci? 🐛). This is where the SOLID principles come in to save the day by making the code easier to understand, reducing coupling, and allowing for easier extensions.
+
+# Single Responsibility Principle
+
+An object should have only one reason to change; we could say that each class has to "do its own thing" and not meddle in the tasks of another. (Single Responsibility Principle)
+
+### - Example in PHP
+
+```js
+class Report {
+    public $title;
+    public $content;
+
+    public function __construct($title, $content) {
+        $this->title = $title;
+        $this->content = $content;
+    }
+
+    public function generateReport() {
+        return "Report: {$this->title}\n{$this->content}";
+    }
+
+    public function sendEmail($to) {
+        $report = $this->generateReport();
+        mail($to, 'Report', $report);
+    }
+}
+
+```
+
+In the first case, the `Report` class has two responsibilities: generating reports and sending emails. If in the future we need to change how emails are sent, we'd have to modify the `Report` class, which violates the single responsibility principle. We would solve it like this:
+
+```js
+class Report {
+    public $title;
+    public $content;
+
+    public function __construct($title, $content) {
+        $this->title = $title;
+        $this->content = $content;
+    }
+
+    public function generateReport() {
+        return "Report: {$this->title}\n{$this->content}";
+    }
+}
+
+class EmailSender {
+    public function sendEmail($to, $content) {
+        mail($to, 'Report', $content);
+    }
+}
+
+
+```
+
+# Open/Closed Principle
+
+A class should be open for extension but closed for modification. It's like having a toolbox where you can add new tools without needing to change the ones you already have. (Open/Closed Principle)
+
+### - Example in Go
+
+```go
+package main
+
+import "fmt"
+
+type PaymentMethod interface {
+    ProcessPayment(amount float64)
+}
+
+type CreditCardPayment struct{}
+
+func (c CreditCardPayment) ProcessPayment(amount float64) {
+    fmt.Printf("Processing credit card payment: %.2f\n", amount)
+}
+
+type PayPalPayment struct{}
+
+func (p PayPalPayment) ProcessPayment(amount float64) {
+    fmt.Printf("Processing PayPal payment: %.2f\n", amount)
+}
+
+func MakePayment(paymentMethod PaymentMethod, amount float64) {
+    paymentMethod.ProcessPayment(amount)
+}
+
+
+```
+
+In the first case, if we needed to add a new payment method, we would have to modify the MakePayment function. To solve this, we can create a PaymentMethod interface that the payment method classes implement and pass it as a parameter to the MakePayment function:
+
+```go
+package main
+
+import "fmt"
+
+type PaymentMethod interface {
+    ProcessPayment(amount float64)
+}
+
+type CreditCardPayment struct{}
+
+func (c CreditCardPayment) ProcessPayment(amount float64) {
+    fmt.Printf("Processing credit card payment: %.2f\n", amount)
+}
+
+type PayPalPayment struct{}
+
+func (p PayPalPayment) ProcessPayment(amount float64) {
+    fmt.Printf("Processing PayPal payment: %.2f\n", amount)
+}
+
+type BankTransferPayment struct{}
+
+func (b BankTransferPayment) ProcessPayment(amount float64) {
+    // Bank transfer logic
+    fmt.Printf("Processing bank transfer payment: %.2f\n", amount)
+}
+
+func MakePayment(paymentMethod PaymentMethod, amount float64) {
+    paymentMethod.ProcessPayment(amount)
+}
+
+```
+
+# Liskov Substitution Principle
+
+Each derived class should be capable of being used as its base class without causing unexpected behavior or failures. In other words, when inheriting from a main class, we should be able to use objects of derived classes in any context where an object of the main class is expected. This principle facilitates code extensibility and maintenance by allowing the addition of new functionalities without affecting the existing behavior. (Liskov Substitution Principle)
+
+### - Example in Java
+
+```java
+class Employee {
+    protected String name;
+
+    public Employee(String name) {
+        this.name = name;
+    }
+
+    public void performDuties() {
+        System.out.println("Performing general duties");
+    }
+}
+
+class Developer extends Employee {
+    public Developer(String name) {
+        super(name);
+    }
+
+    @Override
+    public void performDuties() {
+        System.out.println("Developing software");
+    }
+
+    public void writeCode() {
+        System.out.println("Writing code");
+    }
+}
+
+class Manager extends Employee {
+    public Manager(String name) {
+        super(name);
+    }
+
+    @Override
+    public void performDuties() {
+        System.out.println("Managing projects and teams");
+    }
+
+    public void conductMeetings() {
+        System.out.println("Conducting meetings with the team");
+    }
+}
+
+
+```
+
+In the first code, the Developer class, despite deriving from the Employee class, introduces a new `writeCode` method that was not present in the base class. So if we try to use a generic list of employees in the Company code, we might find inconsistencies.
+
+To fix this, we move the `performDuties` method to the base `Employee` class, allowing each derived class to override it according to its responsibilities. This gives us consistency when uniformly calling this method on a generic list of employees, regardless of their specific type.
+
+```java
+
+public class Company {
+    public static void main(String[] args) {
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Developer("John"));
+        employees.add(new Manager("Jane"));
+
+        // Perform general duties for all employees
+        for (Employee employee : employees) {
+            employee.performDuties();
+        }
+    }
+}
+
+
+```
+
+# Interface Segregation Principle
+
+Classes should not be forced to implement interfaces they do not use. In other words, interfaces should be as small and specific as possible. (Interface Segregation Principle)
+
+### - Example in C#
+
+```csharp
+interface IEmployee
+{
+    void CalculateSalary();
+    void GeneratePerformanceReport();
+    void SendEmailNotification();
+}
+
+class RegularEmployee : IEmployee
+{
+    private double baseSalary;
+
+    public RegularEmployee(double baseSalary)
+    {
+        this.baseSalary = baseSalary;
+    }
+
+    public void CalculateSalary()
+    {
+        double calculatedSalary = baseSalary;
+
+        Console.WriteLine($"The calculated salary is: ${calculatedSalary}");
+    }
+
+    public void GeneratePerformanceReport()
+    {
+        // empty implementation
+    }
+
+    public void SendEmailNotification()
+    {
+        // empty implementation
+    }
+}
+```
+
+In the first case, the `RegularEmployee` class implements the `IEmployee` interface, but it doesn't need to implement the `GeneratePerformanceReport` and `SendEmailNotification` methods. To fix this, we can split the `IEmployee` interface into two smaller interfaces: `ISalaryCalculator` and `INotification`:
+
+```csharp
+interface ISalaryCalculator
+{
+    void CalculateSalary();
+}
+
+interface INotification
+{
+    void SendEmailNotification();
+}
+
+class RegularEmployeeSegregated : ISalaryCalculator
+{
+    private double baseSalary;
+
+    public RegularEmployeeSegregated(double baseSalary)
+    {
+        this.baseSalary = baseSalary;
+    }
+
+    public void CalculateSalary()
+    {
+        double calculatedSalary = baseSalary;
+        Console.WriteLine($"The calculated salary is: ${calculatedSalary}");
+    }
+}
+
+```
+
+By splitting the `IEmployee` interface into smaller, more specific interfaces like `ISalaryCalculator` and `INotification`, you avoid forcing classes that don't need certain methods to implement them.
+
+# Dependency Inversion Principle
+
+High-level classes should not depend on low-level classes. Both should depend on abstractions. Furthermore, abstractions should not depend on details; rather, details should depend on abstractions. (Dependency Inversion Principle)
+
+### - Example in Python
+
+```python
+class PDFGenerator:
+    def generate_pdf(self, data):
+        print("Generating PDF report")
+
+class CSVGenerator:
+    def generate_csv(self, data):
+        print("Generating CSV report")
+
+class ReportGenerator:
+    def __init__(self, format_type):
+        if format_type == "PDF":
+            self.generator = PDFGenerator()
+        elif format_type == "CSV":
+            self.generator = CSVGenerator()
+
+    def generate_report(self, data):
+        self.generator.generate(data)
+
+
+report_generator = ReportGenerator("PDF")
+report_generator.generate_report(data)
+
+```
+
+In the first case, the `ReportGenerator` class depends on the `PDFGenerator` and `CSVGenerator` classes. To fix this, we can create a `ReportFormat` interface that the `PDFGenerator` and `CSVGenerator` classes implement, and pass it as a parameter to the `ReportGenerator` class constructor:
+
+```python
+from abc import ABC, abstractmethod
+
+class ReportGenerator:
+    def __init__(self, generator):
+        self.generator = generator
+
+    def generate_report(self, data):
+        self.generator.generate(data)
+
+class ReportFormat(ABC):
+    @abstractmethod
+    def generate(self, data):
+        pass
+
+class PDFGenerator(ReportFormat):
+    def generate(self, data):
+        print("Generating PDF report")
+
+class CSVGenerator(ReportFormat):
+    def generate(self, data):
+        print("Generating CSV report")
+
+
+pdf_generator = PDFGenerator()
+report_generator = ReportGenerator(pdf_generator)
+report_generator.generate_report(data)
+
+```
+
+# Conclusion 🚀
+
+The SOLID principles are like the Bible of good code, making it easy to maintain and extend. Although it may not always be possible to apply them perfectly, it's important to keep them in mind when writing code to avoid problems in the future. I hope you liked it! Any questions or suggestions, you can leave them down here in the comments. Have a good day and happy holidays! 🎄🎅🏻
+
+</Trans>

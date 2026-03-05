@@ -3,8 +3,25 @@
 import { useState } from 'react'
 import Link from './Link'
 import headerNavLinks from '@/data/headerNavLinks'
+import { useLang } from './LangContext'
+
+const translations: Record<string, Record<string, string>> = {
+  es: {
+    Inicio: 'Inicio',
+    Blog: 'Blog',
+    Proyectos: 'Proyectos',
+    'Sobre mi': 'Sobre mi',
+  },
+  en: {
+    Inicio: 'Home',
+    Blog: 'Blog',
+    Proyectos: 'Projects',
+    'Sobre mi': 'About',
+  },
+}
 
 const MobileNav = () => {
+  const { lang } = useLang()
   const [navShow, setNavShow] = useState(false)
 
   const onToggleNav = () => {
@@ -64,7 +81,7 @@ const MobileNav = () => {
                 className="text-2xl font-bold tracking-widest text-gray-900 dark:text-gray-100"
                 onClick={onToggleNav}
               >
-                {link.title}
+                {translations[lang][link.title] || link.title}
               </Link>
             </div>
           ))}

@@ -2,6 +2,7 @@ import Link from '@/components/Link'
 import siteMetadata from '@/data/siteMetadata'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
 import Article from '@/components/Article'
+import HomeLink from '@/components/HomeLink'
 import { CoreContent } from 'pliny/utils/contentlayer'
 import { Blog } from 'contentlayer/generated'
 import Tag from '@/components/Tag'
@@ -40,15 +41,7 @@ export default function Home({ posts }: HomeProps) {
         </ul>
       </div>
       {posts.length > FEATURED_POSTS && (
-        <div className="flex justify-end text-base font-medium leading-6">
-          <Link
-            href="/blog"
-            className="text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-teal-400"
-            aria-label="All posts"
-          >
-            Ver más &rarr;
-          </Link>
-        </div>
+        <HomeLink href="/blog" />
       )}
 
       <div className="flex flex-col items-start justify-start divide-y divide-gray-200 dark:divide-gray-700 md:mt-24 md:flex-row md:items-center md:justify-center md:space-x-6 md:divide-y-0">

@@ -5,7 +5,10 @@ tags: ['api', 'sdk', 'apuntes']
 images: ['/static/blogs-banner/sdkvsapi.webp']
 draft: false
 summary: Si te encontras perdido y no entendes qué hace ninguno de los dos entonces te recomiendo que pases, hay de todo, tipos de api, diferencias con el sdk, curiosidades y más.
+summary_en: If you are lost and you don't understand what either of them do then I recommend you come on in, there is everything, types of api, differences with sdk, trivia and more.
 ---
+
+<Trans lang="es">
 
 # ¿Qué es una api?
 
@@ -128,3 +131,125 @@ más complejos.
 Igual lo más probable es que uses API de momento pero quiero que sepas que podes usar facilmente un sdk como los de mercado pago, que si bien tenes la api ademas existen estas integraciones llamadas sdk tanto para el Server Side (osea el backend adaptado para PHP, Java, Node, Ruby, Net ó Python) y como para el Client Side (el front, con React ó modules).
 
 Espero te haya gustado leer el contenido que te proporcioné con arduo trabajo duro fiero y macizo, sos libre de hacer lo que gustes con este conocimiento, te deseo muy buen finde. 😉
+
+</Trans>
+
+<Trans lang="en">
+
+# What is an api?
+
+What's up, it's me fiamita, and I'm going to explain a bit how our beloved APIs work. You will hear this very often in programming; it’s easy 😉 "an interface for one software program to communicate with another", but if you don't get what I mean, it is what connects your code with the rules of your application so that everything works correctly. The easiest example I can give you is when you log into League of Legends, your account, the champions, stats and more are made available through the endpoints of these APIs https://developer.riotgames.com/apis (specific access points within the API that allow you to perform operations like reading, creating, updating or deleting data — nothing beats a good CRUD).
+
+<img
+  src="https://raw.githubusercontent.com/Giphy/GiphyAPI/master/api_giphy_header.gif"
+  alt="api vs sdk"
+  className="flex m-auto px-[7em] my-4"
+/>
+
+# Types of API
+
+<div className="full-bleed p-4 bg-[#c623ff2e] overflow-auto my-[2em]">
+  <div className="overflow-x-auto">
+    <table className="min-w-full border-none rounded">
+      <thead>
+        <tr>
+          <th scope="col">API Type</th>
+          <th scope="col">Description</th>
+          <th scope="col">Examples</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Web API</td>
+          <td>
+            Allows users to interact with browsers and web devices to execute web services.
+          </td>
+          <td>
+            <a href="https://developers.google.com/maps/documentation">Google Maps API</a>,
+            <a href="https://developer.twitter.com/en/docs">Twitter API</a>,
+            <a href="https://developers.facebook.com/docs/graph-api">Facebook Graph API</a>
+          </td>
+        </tr>
+        <tr>
+          <td>SOAP API</td>
+          <td>Preferred alternative for strict data privacy and security.</td>
+          <td>
+            <a href="https://developer.paypal.com/api/nvp-soap/soap/">PayPal SOAP API</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Open APIs (public)</td>
+          <td>
+            They are public and allow developers to access specific functionalities.
+          </td>
+          <td>
+            <a href="https://openweathermap.org/api">OpenWeatherMap API</a>,
+            <a href="https://docs.github.com/en/rest">GitHub API</a>,
+            <a href="https://api.nasa.gov/">NASA API</a>
+          </td>
+        </tr>
+        <tr>
+          <td>REST API (RESTful)</td>
+          <td>
+            Facilitate use and optimize bandwidth by providing access to web resources.
+          </td>
+          <td>
+            <a href="https://developer.twitter.com/en/docs">Twitter REST API</a>,
+            <a href="https://developer.spotify.com/documentation/web-api/">Spotify Web API</a>,
+            <a href="https://stripe.com/docs/api">Stripe API</a>
+          </td>
+        </tr>
+        <tr>
+          <td>JSON</td>
+          <td>
+            Data interchange format used to represent numbers, strings, and collections.
+          </td>
+          <td>
+            <a href="https://jsonapi.org/examples/">Examples</a>
+          </td>
+        </tr>
+        <tr>
+          <td>JSON-RPC</td>
+          <td>
+            Remote procedure call (RPC) protocol used for asynchronous server calls.
+          </td>
+          <td>
+            <a href="https://ethereum.org/en/developers/docs/apis/json-rpc">Web3 example</a>,
+            <a href="https://www.jsonrpc.org/specification">specifications</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+# What is an sdk?
+
+
+An SDK (Software Development Kit 🧐) is a set of tools that help developers build applications for a specific platform. It includes code libs, development tools, examples, tests, and documentation. It contains all the components that a developer needs to build new apps for a specific product and its environment.
+
+They are usually fast integrations for application services such as payment (<a href="https://www.mercadopago.com.ar/developers/es/docs/sdks-library/landing">Mercado Pago</a>), location (<a href="https://developers.google.com/maps/documentation/android-sdk/overview?hl=es-419">Google maps</a>), messaging (<a href="https://chatsdk.co/">Chatsdk</a>), analytics and advertising (<a href="https://cloud.google.com/appengine/downloads?hl=es-419">Google Cloud sdk</a>). On the other hand, some SDKs help to build specific software natively, as happens with Java application development; beloved programmers who have used this nice language will know well that it takes longer to configure the IDE than to print a hello world, thanks to the famous <a href="https://www.oracle.com/java/technologies/downloads/">JDK</a> that can be downloaded from Oracle's official page; this development kit is vital to program in this language. Capisci?
+
+<img
+  src="https://images-cdn.9gag.com/photo/avzoBen_700b.jpg"
+  alt="java 3 billion image joke"
+  className="flex m-auto px-[9em] py-[2em]"
+/>
+
+# What do I choose, api or sdk? 🐉⚔
+
+<img
+  src="https://pbs.twimg.com/media/F9dLpAQboAAjnah?format=jpg&name=large"
+  alt="api vs sdk"
+  className="flex m-auto px-[7em] mb-6"
+/>
+
+Well, let's recalculate, which one do I use then? Look, an SDK offers complete tools to build applications quickly, it works great for enterprise companies; meanwhile an API facilitates communication between platforms, it allows flexible and efficient integrations but usually requires more work and love.
+Generally, both are used, since an SDK usually comes with an API. The choice between API and SDK depends on the specific needs of the project and the preference of the programmer leading the work.
+APIs are more common in simple integrations, while SDKs are preferred for more complex projects.
+
+Still, you're mostly likely gonna use APIs for now, but I want you to know that you can easily use an sdk like Mercado Pago's ones; where even though the API exists, there are also these integrations called sdk both for the Server Side (i.e. the backend adapted for PHP, Java, Node, Ruby, Net or Python) and for the Client Side (the frontend, with React or modules).
+
+I hope you enjoyed reading the content that I've passionately worked so hard on to provide you, you are free to do whatever you like with this knowledge, have a great weekend. 😉
+
+</Trans>

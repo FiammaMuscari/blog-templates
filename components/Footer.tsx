@@ -1,8 +1,11 @@
+'use client'
 import Link from './Link'
 import siteMetadata from '@/data/siteMetadata'
 import SocialIcon from '@/components/social-icons'
+import { useLang } from './LangContext'
 
 export default function Footer() {
+  const { lang } = useLang()
   return (
     <footer>
       <div className="mt-16 flex flex-col items-center">
@@ -20,7 +23,9 @@ export default function Footer() {
           <Link href="/">{siteMetadata.title}</Link>
         </div>
         <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
-          <Link href="https://github.com/fiammamuscari">Ver código</Link>
+          <Link href="https://github.com/fiammamuscari">
+            {lang === 'es' ? 'Ver código' : 'View code'}
+          </Link>
         </div>
       </div>
     </footer>

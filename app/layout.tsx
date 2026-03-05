@@ -11,6 +11,7 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import ParticlesBackground from '@/components/ParticlesBackground'
 import { ThemeProviders } from './theme-providers'
+import { LangProvider } from '@/components/LangContext'
 import { Metadata } from 'next'
 import Script from 'next/script'
 import Head from './head'
@@ -82,15 +83,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProviders>
           <ParticlesBackground />
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
-          <SectionContainer>
-            <div className="flex h-screen flex-col justify-between font-sans">
-              <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
-                <Header />
-                <main className="mb-auto">{children}</main>
-              </SearchProvider>
-              <Footer />
-            </div>
-          </SectionContainer>
+          <LangProvider>
+            <SectionContainer>
+              <div className="flex h-screen flex-col justify-between font-sans">
+                <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
+                  <Header />
+                  <main className="mb-auto">{children}</main>
+                </SearchProvider>
+                <Footer />
+              </div>
+            </SectionContainer>
+          </LangProvider>
         </ThemeProviders>
       </body>
     </html>

@@ -2,10 +2,12 @@
 import Image from './Image'
 import Link from './Link'
 import { useState } from 'react'
+import { useLang } from './LangContext'
 
 const Card = ({ title, description, imgSrc, href }) => {
+  const { lang } = useLang()
   const [imageLoaded, setImageLoaded] = useState(false)
-  const maxDescriptionHeight = '12rem' // Ajusta la altura máxima según tus necesidades
+  const maxDescriptionHeight = '12rem'
 
   const handleImageLoad = () => {
     setImageLoaded(true)
@@ -14,8 +16,9 @@ const Card = ({ title, description, imgSrc, href }) => {
   return (
     <div className="md max-w-[544px] bg-white dark:bg-gray-950 rounded-md shadow-sm">
       <div
-        className={`flex flex-col ${imgSrc ? 'h-full' : ''
-          } max-h-[30em] rounded-md overflow-hidden`}
+        className={`flex flex-col ${
+          imgSrc ? 'h-full' : ''
+        } max-h-[30em] rounded-md overflow-hidden`}
       >
         {!imageLoaded && (
           <div className="object-cover object-center ">
@@ -42,8 +45,9 @@ const Card = ({ title, description, imgSrc, href }) => {
 
         {imgSrc && (
           <div
-            className={`flex-shrink-0 ${imageLoaded ? '' : 'hidden'
-              } border-b border-solid border-purple-300 dark:border-black`}
+            className={`flex-shrink-0 ${
+              imageLoaded ? '' : 'hidden'
+            } border-b border-solid border-purple-300 dark:border-black`}
           >
             {href ? (
               <Link href={href} aria-label={`Link to ${title}`}>
@@ -89,7 +93,7 @@ const Card = ({ title, description, imgSrc, href }) => {
             className="prose mb-3 text-gray-500 dark:text-gray-400 flex-grow"
             style={{ maxHeight: maxDescriptionHeight, overflow: 'hidden' }}
           >
-            {description}
+            {typeof description === 'object' ? description[lang] || description.es : description}
           </p>
           {href && (
             <Link
@@ -97,7 +101,7 @@ const Card = ({ title, description, imgSrc, href }) => {
               className="text-base font-medium leading-6 text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-teal-400"
               aria-label={`Link to ${title}`}
             >
-              Ver más &rarr;
+              {lang === 'en' ? 'See more \u2192' : 'Ver más \u2192'}
             </Link>
           )}
         </div>

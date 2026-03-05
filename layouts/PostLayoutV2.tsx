@@ -1,3 +1,5 @@
+'use client'
+
 import { CoreContent } from 'pliny/utils/contentlayer'
 import Link from '@/components/Link'
 import PageTitle from '@/components/PageTitle'
@@ -10,6 +12,7 @@ import ScrollTopAndComment from '@/components/ScrollTopAndComment'
 import TOCInline from '@/components/TOCInline'
 import { ReactNode } from 'react'
 import { Authors, Blog } from 'contentlayer/generated'
+import { useLang } from '@/components/LangContext'
 
 const editUrl = (path) => `${siteMetadata.siteRepo}/blob/main/data/${path}`
 
@@ -23,16 +26,39 @@ const postDateTemplate: Intl.DateTimeFormatOptions = {
 interface Props {
   authorDetails: CoreContent<Authors>[]
   content: Blog
-  next?: { slug: string; title: string }
-  prev?: { slug: string; title: string }
+  next?: { slug: string; title: string; title_en?: string }
+  prev?: { slug: string; title: string; title_en?: string }
   children: ReactNode
 }
 
 export default function PostLayout(props: Props) {
   const { authorDetails, content, next, prev, children } = props
-  const { filePath, path, slug, date, title, tags, images, toc, lastmod } = content
+  const { filePath, path, slug, date, tags, images, toc, lastmod } = content
   const basePath = path.split('/')[0]
   const coverUrl = images?.[0]
+  const { lang } = useLang()
+  const title = lang === 'en' && content.title_en ? content.title_en : content.title
+
+  const t = {
+    es: {
+      published: 'Publicado el',
+      author: 'Autor',
+      back: '← Vuelve al blog',
+      toc: 'Tabla de contenido',
+      tags: 'Etiquetas',
+      prev: 'Anterior post',
+      next: 'Siguiente post',
+    },
+    en: {
+      published: 'Published on',
+      author: 'Author',
+      back: '← Back to the blog',
+      toc: 'Table of Contents',
+      tags: 'Tags',
+      prev: 'Previous post',
+      next: 'Next post',
+    }
+  }[lang === 'en' ? 'en' : 'es']
 
   return (
     <SectionContainer>
@@ -43,10 +69,10 @@ export default function PostLayout(props: Props) {
             <div className="space-y-1 text-center">
               <dl className="space-y-10">
                 <div>
-                  <dt className="sr-only">Publicado el</dt>
+                  <dt className="sr-only">{t.published}</dt>
                   <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                     <time dateTime={date}>
-                      {new Date(date).toLocaleDateString('es-ES', postDateTemplate)}
+                      {new Date(date).toLocaleDateString(lang === 'en' ? 'en-US' : 'es-ES', postDateTemplate)}
                     </time>
                   </dd>
                 </div>
@@ -74,7 +100,7 @@ export default function PostLayout(props: Props) {
                     </svg>
 
                     <time dateTime={lastmod}>
-                      {new Date(lastmod).toLocaleDateString('es-ES', {
+                      {new Date(lastmod).toLocaleDateString(lang === 'en' ? 'en-US' : 'es-ES', {
                         day: 'numeric',
                         month: 'long',
                         year: 'numeric',
@@ -99,7 +125,7 @@ export default function PostLayout(props: Props) {
 
                     <time dateTime={lastmod}>
                       {new Date(lastmod)
-                        .toLocaleDateString('es-ES', {
+                        .toLocaleDateString(lang === 'en' ? 'en-US' : 'es-ES', {
                           year: 'numeric',
                           month: '2-digit',
                           day: '2-digit',
@@ -119,7 +145,7 @@ export default function PostLayout(props: Props) {
           >
             <div className=" xl:sticky md:top-1 block">
               <dl className="pt-6 pb-10 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
-                <dt className="sr-only">Autor</dt>
+                <dt className="sr-only">{t.author}</dt>
                 <dd>
                   <ul className="flex justify-center space-x-8 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
                     {authorDetails.map((author) => (
@@ -134,7 +160,7 @@ export default function PostLayout(props: Props) {
                           />
                         )}
                         <dl className="whitespace-nowrap text-sm font-medium leading-5">
-                          <dt className="sr-only">Autor</dt>
+                          <dt className="sr-only">{t.author}</dt>
                           <dd className="text-gray-900 dark:text-gray-100">{author.name}</dd>
                         </dl>
                       </li>
@@ -145,13 +171,13 @@ export default function PostLayout(props: Props) {
                       href={`/${basePath}`}
                       className="text-primary-500 dark:text-teal-500 hover:text-primary-600  dark:hover:text-teal-400"
                     >
-                      &larr; Vuelve al blog
+                      {t.back}
                     </Link>
                   </div>
                 </dd>
               </dl>
               <h2 className="pt-6 text-xs font-bold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                Tabla de contenido
+                {t.toc}
               </h2>
               <TOCInline asDisclosure={false} toc={toc} />
               <footer>
@@ -159,7 +185,7 @@ export default function PostLayout(props: Props) {
                   {tags && (
                     <div className="py-4 xl:py-8">
                       <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        Tags
+                        {t.tags}
                       </h2>
                       <div className="mt-3 flex flex-wrap">
                         {tags.map((tag) => (
@@ -173,20 +199,20 @@ export default function PostLayout(props: Props) {
                       {prev && (
                         <div>
                           <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                            Anterior post
+                            {t.prev}
                           </h2>
                           <div className="mt-3 text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400">
-                            <Link href={`/blog/${prev.slug}`}>{prev.title}</Link>
+                            <Link href={`/blog/${prev.slug}`}>{lang === 'en' && prev.title_en ? prev.title_en : prev.title}</Link>
                           </div>
                         </div>
                       )}
                       {next && (
                         <div>
                           <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                            Siguiente post
+                            {t.next}
                           </h2>
                           <div className="mt-3 text-primary-500 dark:text-teal-500 hover:text-primary-600 dark:hover:text-primary-400 dark:hover:text-teal-400">
-                            <Link href={`/blog/${next.slug}`}>{next.title}</Link>
+                            <Link href={`/blog/${next.slug}`}>{lang === 'en' && next.title_en ? next.title_en : next.title}</Link>
                           </div>
                         </div>
                       )}
@@ -204,7 +230,7 @@ export default function PostLayout(props: Props) {
                     src={coverUrl}
                     fill
                     sizes="100vw"
-                    placeholder={[coverUrl] && 'blur'}
+                    placeholder={coverUrl ? 'blur' : 'empty'}
                     blurDataURL={coverUrl}
                   />
                 </div>

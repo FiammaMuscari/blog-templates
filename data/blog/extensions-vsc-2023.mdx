@@ -1,11 +1,15 @@
 ---
 title: 'Extensiones para Visual Studio Code'
+title_en: 'Visual Studio Code Extensions'
 date: '2023-11-07'
 tags: ['apuntes', 'extensiones']
 draft: false
 images: ['/static/blogs-banner/vsc.webp']
 summary: Una lista detallada de todas las extensiones que deberías tener en tu editor de código.
+summary_en: A detailed list of all the extensions you should have in your code editor.
 ---
+
+<Trans lang="es">
 
 # Extensiones para programadores en Visual Studio Code (2023)
 
@@ -92,3 +96,95 @@ Proporciona información detallada sobre el historial del código. Visualiza qui
 ## Conclusión
 
 Estas extensiones son tu caja de herramientas esenciales en el mundo de la programación. Al usar Visual Studio Code junto con estas poderosas extensiones. ¡A codear! 🚀😊
+
+</Trans>
+
+<Trans lang="en">
+
+# Extensions for developers in Visual Studio Code (2023)
+
+## Introduction 🚀
+
+Welcome to the exciting world of programming!💻✨ In this blog, we are going to explore some options for setting up your Visual Studio Code (VSC) because, to ensure productivity, it is crucial to have the right tools. Today, I'll introduce you to some key extensions for VSC designed to make your coding experience more efficient, educational, and above all, enjoyable, especially if you are taking your first steps in this world. Let's go! 😊
+
+## Snippets
+
+Your Instant Code Helper 💡
+
+Essential languages like **JavaScript, HTML, and CSS** are already integrated into VSC. You can take advantage of Snippets (small blocks of predefined code) to speed up your writing, providing code snippets that help you understand structures and common practices. Luckily for us, the mentioned languages are built-in by the editor, but if you look for support for other languages, tools or features, you'll have to install them.
+
+## Themes
+
+Customize Your Development Environment 🌈
+
+It is possible to customize the workspace, something essential for productivity and comfort. There are **Themes** for this; some popular ones for you to test out are "Shades of Purple" (the one I currently use), "Otakon", "Ayu Mirage", etc. They're used to change the colors and background of the editor according to your visual preferences, creating a pleasant workspace just to your liking.
+
+## Discord Presence
+
+Share Your Progress in Real Time 🎮
+
+Do you want to show your friends the hours you spend coding like you have no life? Great, with the "Discord Presence" extension, you can easily share in real-time which file you are working on and how long you've been coding while you watch them play LoL. It only works when running the Discord app as administrator and seamlessly connects to Visual Studio Code.
+
+## Live Server
+
+Instant Visual Changes in Your Web Project 🎥
+
+It allows you to see the changes in your web project in real-time. This extension creates a local server that instantly displays the modifications you make to your HTML, CSS, or JavaScript code. Ideal for adjusting styles and layout in real-time.
+
+## Prettier
+
+Keep Your Code Organized and Consistent 🎨
+
+Code readability is crucial. Prettier automatically formats your code to follow a consistent coding style in HTML, CSS, and JavaScript. It ensures your code is properly structured, easing collaboration and code review.
+
+### Want to autoformat your code in VSC on save with Prettier?
+
+To auto-format on save (using the shortcut ctrl + s) we must set up VSC as follows:
+Pressing F1 > type "settings.json" inside this file we'll change the VSC configuration so that on save Prettier executes itself.
+Paste the following code and close it, that should work with no issues.
+
+```
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll.stylelint": true
+  }
+}
+```
+
+## ESLint
+
+Find Errors and Follow JavaScript Best Practices 📛
+
+It's a linting tool for JavaScript. It identifies errors and enforces best practices. For beginners, it's essential for learning about common mistakes and continuously improving your JavaScript code.
+
+## Indent-Rainbow
+
+Visualize Your Indentation Colorfully 🌈
+
+It colors the indentations of your code, making nested code blocks visible like a rainbow, increasing readability.
+
+## Material Icon Theme
+
+Stylish Icons for Your Project 🎉
+
+These intuitive icons make identifying files and directories easy, improving the organization of your project and your workflow, plus they look very pretty. 😊
+
+## GitHub Copilot
+
+Your Coding Companion 🤖
+
+It is an artificial intelligence tool that helps you write code more efficiently and faster. It is important to have a copilot (paid subscription) for its extension to work.
+
+## Git Lens
+
+Explore Your Project's History Intuitively 🕰️
+
+It provides detailed information about your code's history. See who, why, and when changes were made in a file or line of code. This is invaluable when trying to understand the evolution of a project and learning from past decisions.
+
+## Conclusion
+
+These extensions are your essential toolbox in the programming world. By using Visual Studio Code alongside these powerful extensions. Happy coding! 🚀😊
+
+</Trans>

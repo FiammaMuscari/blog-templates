@@ -7,6 +7,7 @@ import CustomLink from './Link'
 import YouTube from './YouTube'
 import StackBlitz from './StackBlitz'
 import ItemGrid from './ItemGrid'
+import Trans from './Trans'
 
 export const components: MDXComponents = {
   Image,
@@ -17,4 +18,5 @@ export const components: MDXComponents = {
   YouTube,
   StackBlitz,
   ItemGrid,
+  Trans,
 }

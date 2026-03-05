@@ -7,6 +7,7 @@ import type { Blog } from 'contentlayer/generated'
 
 import Link from '@/components/Link'
 import Article from '@/components/Article'
+import { useLang } from '@/components/LangContext'
 
 interface PaginationProps {
   totalPages: number
@@ -19,18 +20,38 @@ interface ListLayoutProps {
   pagination?: PaginationProps
 }
 
+const translations: Record<string, Record<string, string>> = {
+  es: {
+    Buscar: 'Buscar',
+    NoPosts: 'No se encontraron publicaciones.',
+    Previous: 'Anterior',
+    Of: 'de',
+    Next: 'Siguiente',
+    Todos: 'Todos',
+  },
+  en: {
+    Buscar: 'Search',
+    NoPosts: 'No posts found.',
+    Previous: 'Previous',
+    Of: 'of',
+    Next: 'Next',
+    Todos: 'All',
+  },
+}
+
 function Pagination({ totalPages, currentPage }: PaginationProps) {
   const pathname = usePathname()
   const basePath = pathname.split('/')[1]
   const prevPage = currentPage - 1 > 0
   const nextPage = currentPage + 1 <= totalPages
+  const { lang } = useLang()
 
   return (
     <div className="space-y-2 pb-8 pt-6 md:space-y-5">
       <nav className="flex justify-between">
         {!prevPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!prevPage}>
-            Previous
+            {translations[lang].Previous}
           </button>
         )}
         {prevPage && (
@@ -38,20 +59,20 @@ function Pagination({ totalPages, currentPage }: PaginationProps) {
             href={currentPage - 1 === 1 ? `/${basePath}/` : `/${basePath}/page/${currentPage - 1}`}
             rel="prev"
           >
-            Previous
+            {translations[lang].Previous}
           </Link>
         )}
         <span>
-          {currentPage} of {totalPages}
+          {currentPage} {translations[lang].Of} {totalPages}
         </span>
         {!nextPage && (
           <button className="cursor-auto disabled:opacity-50" disabled={!nextPage}>
-            Next
+            {translations[lang].Next}
           </button>
         )}
         {nextPage && (
           <Link href={`/${basePath}/page/${currentPage + 1}`} rel="next">
-            Next
+            {translations[lang].Next}
           </Link>
         )}
       </nav>
@@ -66,6 +87,7 @@ export default function ListLayout({
   pagination,
 }: ListLayoutProps) {
   const [searchValue, setSearchValue] = useState('')
+  const { lang } = useLang()
   const filteredBlogPosts = posts.filter((post) => {
     const searchContent = post.title + post.summary + post.tags?.join(' ')
     return searchContent.toLowerCase().includes(searchValue.toLowerCase())
@@ -80,16 +102,16 @@ export default function ListLayout({
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            {title}
+            {title === 'Todos' ? translations[lang].Todos : title}
           </h1>
           <div className="relative max-w-lg">
             <label>
-              <span className="sr-only">Buscar</span>
+              <span className="sr-only">{translations[lang].Buscar}</span>
               <input
-                aria-label="Buscar"
+                aria-label={translations[lang].Buscar}
                 type="text"
                 onChange={(e) => setSearchValue(e.target.value)}
-                placeholder="Buscar"
+                placeholder={translations[lang].Buscar}
                 className="block w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:focus:border-teal-500 dark:focus:ring-teal-500 dark:border-gray-900 dark:bg-gray-800 dark:text-gray-100"
               />
             </label>
@@ -110,7 +132,7 @@ export default function ListLayout({
           </div>
         </div>
         <ul>
-          {!filteredBlogPosts.length && 'No posts found.'}
+          {!filteredBlogPosts.length && translations[lang].NoPosts}
           {displayPosts.map((post) => {
             const { slug } = post
             return <Article {...post} key={slug} />
