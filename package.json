@@ -86,6 +86,9 @@
     "@opentelemetry/sdk-trace-node": "1.13.0",
     "@opentelemetry/semantic-conventions": "1.13.0"
   },
+  "engines": {
+    "node": "20.x"
+  },
   "lint-staged": {
     "**/*.(js|jsx|ts|tsx)": [
       "eslint --fix"
