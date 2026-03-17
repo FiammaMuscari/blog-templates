@@ -78,7 +78,7 @@ const projectsData = [
       en: `Visual frontend copy of the famous marketplace`
     },
     imgSrc: '/static/meli.webp',
-    href: 'https://mercadolibrechallenge.vercel.app/',
+    href: 'https://mercado-libre-amber.vercel.app/',
   },
 ]
 
