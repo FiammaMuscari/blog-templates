@@ -1,4 +1,4 @@
-import { Backpack, Github, Linkedin, Mail, MapPin, Twitter } from 'lucide-react'
+import { Backpack, Github, Linkedin, Mail, MapPin } from 'lucide-react'
 import { Twemoji } from '@/components/Twemoji'
 import siteMetadata from '@/data/siteMetadata'
 
@@ -61,18 +61,6 @@ export function ProfileCardInfo() {
             <Linkedin size={20} strokeWidth={1} />
             <span className="ml-px text-gray-500">/</span>
             <span className="ml-0.5">Fiamma</span>
-          </a>
-          <span className="text-gray-400 dark:text-gray-500">|</span>
-          <a
-            target="_blank"
-            href={siteMetadata.twitter}
-            rel="noreferrer"
-            className="hover:underline text-sm flex items-center"
-            data-umami-event="profile-card-x"
-          >
-            <Twitter strokeWidth={1} size={20} />
-            <span className="ml-px text-gray-500">/</span>
-            <span className="ml-0.5">Fiammar</span>
           </a>
         </div>
       </div>

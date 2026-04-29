@@ -13,7 +13,7 @@ const siteMetadata = {
   mastodon: 'https://mastodon.social',
   email: 'fiammamuscari@gmail.com',
   github: 'https://github.com/fiammamuscari',
-  twitter: 'https://twitter.com/__fiamy',
+  twitter: undefined,
   facebook: 'https://facebook.com',
   youtube: 'https://youtube.com',
   linkedin: 'https://www.linkedin.com/in/fiamma-muscari',
